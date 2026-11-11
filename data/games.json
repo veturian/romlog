@@ -2143,14 +2143,32 @@
    "title": "Pokémon Petalburg Dynasty",
    "type": "ROM Hack",
    "base": "Emerald",
-   "status": "Playing",
-   "rating": 5,
-   "ended": "",
-   "team": [],
+   "status": "Completed",
+   "rating": 9,
+   "ended": "2026-09-30",
+   "team": [
+    "Lanturn",
+    "Swampert",
+    "Gyarados",
+    "Starmie",
+    "Primarina",
+    "Dracovish"
+   ],
    "notes": "Similar to TGOM - you inherit Norman's gym after you become champion and must run the gym with a single type. Very neat and lots of things to build/invest in. First attempt is water type (obvi)",
-   "progress": null,
+   "progress": {
+    "unit": "Chapters",
+    "cur": 8,
+    "total": 8,
+    "where": ""
+   },
    "next": false,
-   "log": []
+   "log": [
+    {
+     "d": "2026-09-30",
+     "t": "",
+     "p": "8/8 chapters"
+    }
+   ]
   },
   {
    "id": "mega-power",
@@ -2338,6 +2356,59 @@
    ],
    "notes": "Neat - similar plot to the Lugia movie through the Orange Islands. Didn't do postgame, got bored.",
    "progress": null,
+   "next": false,
+   "log": []
+  },
+  {
+   "id": "riverteal",
+   "title": "Pokémon Riverteal",
+   "type": "ROM Hack",
+   "base": "Emerald",
+   "status": "Playing",
+   "rating": 9,
+   "started": "2026-11-04",
+   "ended": "",
+   "team": [
+    "Blaziken",
+    "Starmie",
+    "Swellow",
+    "Gardevoir",
+    "Shelgon"
+   ],
+   "notes": "Really neat new idea; progress through \"gyms\" is based on total pokedex count. Challenges you to catch everything, work on evolving, etc. Things I normally never do.",
+   "progress": {
+    "unit": "Gyms",
+    "cur": 8,
+    "total": 8,
+    "where": "Just before E4"
+   },
+   "next": false,
+   "log": []
+  },
+  {
+   "id": "crystal-inheritance",
+   "title": "Pokémon Crystal Inheritance",
+   "type": "ROM Hack",
+   "base": "Crystal",
+   "status": "Abandoned",
+   "rating": 5,
+   "started": "2026-10-14",
+   "ended": "2026-11-10",
+   "team": [
+    "Vulpix",
+    "Gabite",
+    "Dewott",
+    "Lucario",
+    "Xatu",
+    "Dragonair"
+   ],
+   "notes": "Very interesting story through time pre-Johto. Was just not feeling it at the time. Worth a revisit one day.",
+   "progress": {
+    "unit": "Badges",
+    "cur": 3,
+    "total": 8,
+    "where": "Violet City"
+   },
    "next": false,
    "log": []
   }
