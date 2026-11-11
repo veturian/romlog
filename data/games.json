@@ -2412,6 +2412,33 @@
    },
    "next": false,
    "log": []
+  },
+  {
+   "id": "quetzal",
+   "title": "Pokémon Quetzal",
+   "type": "ROM Hack",
+   "base": "Emerald",
+   "status": "Completed",
+   "rating": 9,
+   "started": "2026-10-30",
+   "ended": "2026-10-31",
+   "team": [
+    "Blaziken",
+    "Glimmora",
+    "Meowscarada",
+    "Meowstic",
+    "Kilowattrel",
+    "Kingdra"
+   ],
+   "notes": "",
+   "progress": {
+    "unit": "Badges",
+    "cur": 8,
+    "total": 8,
+    "where": ""
+   },
+   "next": false,
+   "log": []
   }
  ]
 }
