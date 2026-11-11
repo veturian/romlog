@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ROM Log · Pokémon Games Tracker</title>
+<meta name="description" content="A personal log of Pokémon ROM hacks and fan games: status, ratings, teams and stats.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem("rl-theme");if(!t)t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="dark"}</script>
+<style>
+:root{
+  --display:'DM Serif Display',Georgia,'Times New Roman',serif; --sans:'Hanken Grotesk',system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:14px; --bot:0px; --blur:blur(9px) saturate(1.1);
+}
+:root,[data-theme=dark]{
+  --bg:#0f1417; --panel:rgba(16,22,26,.74); --panel2:rgba(48,58,65,.60); --line:rgba(255,255,255,.15); --hdr:rgba(11,16,19,.80); --drawer:#151a1e;
+  --text:#f1efe8; --text2:#c2c6c4; --muted:#8e9894;
+  --accent:#2f9ecb; --accent-bg:rgba(47,158,203,.22); --accent-text:#a8dcf1;
+  --pink:#f0507c; --pink-bg:rgba(240,80,124,.20); --pink-text:#ff9db8;
+  --yellow:#ffd873; --yellow-bg:rgba(255,216,115,.17);
+  --teal:#12d89a; --teal-bg:rgba(18,216,154,.18); --teal-text:#6be8c1;
+  --amber:#ffb454;
+  --play-bd:#2f7da0; --play-bg:linear-gradient(180deg,rgba(28,66,86,.82),var(--panel) 68%);
+  --bgov:linear-gradient(rgba(5,9,13,.52),rgba(5,9,13,.66));
+  color-scheme:dark;
+}
+[data-theme=light]{
+  --bg:#dce8ee; --panel:rgba(255,255,255,.80); --panel2:rgba(232,240,244,.90); --line:rgba(25,50,62,.18); --hdr:rgba(255,255,255,.82); --drawer:#f6f9fa;
+  --text:#14242b; --text2:#3d535e; --muted:#667a84;
+  --accent:#1c7ea8; --accent-bg:#d3e9f3; --accent-text:#0b5777;
+  --pink:#d03a68; --pink-bg:#fbdbe5; --pink-text:#a5204a;
+  --yellow:#8a5f00; --yellow-bg:#f6e7bd;
+  --teal:#0b9d72; --teal-bg:#d0efe4; --teal-text:#086a4e;
+  --amber:#a85a00;
+  --play-bd:#7ab4cf; --play-bg:linear-gradient(180deg,rgba(210,233,244,.96),var(--panel) 68%);
+  --bgov:linear-gradient(rgba(255,255,255,.14),rgba(255,255,255,.30));
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--bgov),var(--bgimg,none) center 30%/cover no-repeat var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);font:400 15px/1.5 var(--sans);-webkit-font-smoothing:antialiased;min-height:100dvh}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:2px;border-radius:6px}
+a{color:var(--accent-text)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* header */
+header.top{position:sticky;top:0;z-index:40;background:var(--hdr);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);border-bottom:1px solid var(--line);padding:0 max(16px,calc((100% - 1200px)/2));display:flex;align-items:center;gap:20px;min-height:64px}
+.brand{font:400 29px/1 var(--display);letter-spacing:0;color:var(--text);text-decoration:none;white-space:nowrap}
+.brand small{display:block;font:500 11px/1.2 var(--sans);color:var(--text2);letter-spacing:.03em;margin-top:4px}
+nav.main{display:flex;gap:2px;margin-left:auto}
+nav.main button{background:none;border:0;min-height:44px;padding:0 16px;color:var(--text2);font-weight:600;position:relative;border-radius:8px}
+nav.main button:hover{color:var(--text)}
+nav.main button[aria-current=page]{color:var(--yellow)}
+nav.main button[aria-current=page]::after{content:"";position:absolute;left:16px;right:16px;bottom:5px;height:2px;background:var(--yellow);border-radius:2px}
+.hdr-actions{display:flex;gap:8px;align-items:center}
+.sync{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);padding:0 4px}
+.sync[hidden]{display:none}
+.sync i{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.sync.ok i{background:var(--teal)} .sync.busy i{background:var(--yellow)} .sync.err i{background:var(--pink)}
+.bottomnav{display:none}
+main{max-width:1200px;margin:0 auto;padding:24px 16px 90px}
+section.view{display:none} section.view.on{display:block}
+h1,h2,h3{margin:0;font-weight:600}
+h2.sec{font:400 27px/1.1 var(--display);margin:32px 0 12px;letter-spacing:0;text-shadow:0 1px 10px var(--bg)}
+h2.sec:first-child{margin-top:0}
+.sub{color:var(--text2);font-size:13px}
+
+/* glass */
+.card,.list,.tile,.panel,.mini button,.chip,.empty{-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
+.empty{background:var(--panel)}
+
+/* buttons / inputs */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:0 14px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;font-weight:600;font-size:14px}
+.btn:hover{border-color:var(--accent);background:var(--accent-bg)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.icon{width:40px;padding:0}
+.btn.icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btn.icon .moon{display:none}[data-theme=light] .btn.icon .sun{display:none}[data-theme=light] .btn.icon .moon{display:inline}
+.btn.primary:hover{opacity:.92}
+.btn.danger{color:var(--pink-text)}
+.btn.sm{min-height:34px;padding:0 10px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+input[type=text],input[type=date],input[type=number],input[type=password],select,textarea{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;min-height:40px;width:100%}
+textarea{resize:vertical}
+select option{background:var(--panel2)}
+label.f{display:block;font-size:12px;color:var(--text2);margin:0 0 4px;font-weight:600;letter-spacing:.02em}
+.field{margin-bottom:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+/* pills */
+.pill{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.st-Playing{background:var(--accent-bg);color:var(--accent-text)}
+.st-Completed{background:var(--teal-bg);color:var(--teal-text)}
+.st-Abandoned{background:var(--pink-bg);color:var(--pink-text)}
+.st-Not-Started{background:var(--panel2);color:var(--text2)}
+.st-Not-Interested{background:var(--yellow-bg);color:var(--yellow)}
+.tag{font-size:12px;color:var(--text2)}
+
+/* sprites */
+.sprites{display:flex;gap:0;align-items:center}
+.sprites img,.sprites .ph{width:38px;height:38px;image-rendering:pixelated;object-fit:contain;margin-right:-6px}
+.sprites.lg img,.sprites.lg .ph{width:56px;height:56px;margin-right:-4px}
+.ph{display:inline-grid;place-items:center;border-radius:50%;background:var(--panel2);border:1px dashed var(--line);color:var(--muted);font-size:13px;font-weight:700}
+.sprites.sm img,.sprites.sm .ph{width:30px;height:30px;margin-right:-4px}
+
+/* now view */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.card.play{border-color:var(--play-bd);background:var(--play-bg)}
+.card h3{font-size:19px;line-height:1.2}
+.card .meta{margin:4px 0 12px}
+.card .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.bar{height:10px;background:var(--panel2);border-radius:5px;overflow:hidden;margin:10px 0 4px}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:5px}
+.stale{color:var(--amber);font-weight:600;font-size:12.5px}
+.fresh{color:var(--text2);font-size:12.5px}
+.empty{padding:26px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:var(--r)}
+.mini{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.mini.four{grid-template-columns:repeat(4,1fr)}
+.mini button{text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.mini button:hover{border-color:var(--accent)}
+.mini b{font-weight:600;line-height:1.25}
+.logline{display:grid;grid-template-columns:86px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.logline:last-child{border:0}
+.logline .d{color:var(--text2);font-size:13px}
+
+/* library */
+.ctrls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.ctrls input[type=text]{flex:1 1 100%}
+.ctrls select{width:auto;flex:1 1 130px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;min-height:34px;padding:0 13px;font-size:13px;font-weight:600;color:var(--text2)}
+.chip[aria-pressed=true]{background:var(--accent-bg);border-color:var(--accent);color:var(--accent-text)}
+.chip em{font-style:normal;color:var(--muted);margin-left:5px;font-weight:500}
+.list{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.item{display:grid;grid-template-columns:minmax(200px,2.2fr) 110px 70px minmax(170px,1.6fr) minmax(120px,1fr);gap:12px;align-items:center;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:11px 16px;border-radius:0}
+.item:last-child{border-bottom:0}
+.item:hover{background:var(--panel2)}
+.item .t{font-weight:600;line-height:1.25}
+.item .rt{font-weight:700}
+.item .pg{font-size:12.5px;color:var(--text2)}
+.list-head{display:grid;grid-template-columns:minmax(200px,2.2fr) 110px 70px minmax(170px,1.6fr) minmax(120px,1fr);gap:12px;padding:10px 16px;border-bottom:1px solid var(--line);font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--text2)}
+.teamgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.mon{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:8px 8px 9px;min-height:104px}
+.mon .sprites img,.mon .sprites .ph{margin:0;width:60px;height:60px}
+.mon .nm{font-size:13px;font-weight:600;line-height:1.2}
+.run{margin-bottom:16px}
+.runhd{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
+.nextmark{color:var(--yellow);margin-left:6px}
+.count{font-size:13px;color:var(--text2);margin:10px 2px}
+
+/* stats */
+.tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 10px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:104px}
+.tile b{display:block;font:400 38px/1.05 var(--display);color:var(--text)}
+.tile span{font-size:12.5px;color:var(--text2);line-height:1.3;max-width:15ch}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.panel h3{font:400 22px/1.1 var(--display);margin-bottom:4px}
+.panel .sub{margin-bottom:12px}
+.hb{display:grid;grid-template-columns:minmax(90px,150px) 1fr 38px;gap:10px;align-items:center;margin:7px 0;font-size:13.5px}
+.hb .lab{color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.hb .tr{height:12px;background:var(--panel2);border-radius:4px;overflow:hidden}
+.hb .tr i{display:block;height:100%;background:var(--accent);border-radius:0 4px 4px 0}
+.hb .v{text-align:right;color:var(--text2);font-variant-numeric:tabular-nums}
+.hb .lab img{width:28px;height:28px;image-rendering:pixelated;margin:-6px 0}
+.stack{display:flex;gap:2px;height:30px;border-radius:6px;overflow:hidden;margin:6px 0 10px}
+.stack i{display:block;min-width:3px;font-style:normal}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--text2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.cols-chart{display:flex;align-items:flex-end;gap:6px;height:150px;margin-top:6px;padding-bottom:2px;border-bottom:1px solid var(--line)}
+.cols-chart .c{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;position:relative}
+.cols-chart .c i{display:block;width:100%;max-width:34px;background:var(--accent);border-radius:4px 4px 0 0;min-height:2px}
+.cols-chart .c span.n{font-size:11.5px;color:var(--text2);margin-bottom:3px}
+.xl{display:flex;gap:6px;font-size:11px;color:var(--text2);margin-top:5px}
+.xl span{flex:1;text-align:center;overflow:hidden;text-overflow:clip;white-space:nowrap}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.seg button{background:var(--panel);border:0;padding:0 12px;min-height:32px;font-size:13px;color:var(--text2);font-weight:600}
+.seg button[aria-pressed=true]{background:var(--accent-bg);color:var(--accent-text)}
+.hof{display:flex;flex-wrap:wrap;gap:8px}
+.hof button{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px}
+.hof button:hover{border-color:var(--yellow)}
+
+/* drawer + sheet */
+#scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:60;opacity:0;pointer-events:none;transition:opacity .15s}
+#scrim.on{opacity:1;pointer-events:auto}
+.panel-side{position:fixed;z-index:70;top:0;right:0;bottom:0;width:min(470px,100%);background:var(--drawer);border-left:1px solid var(--line);padding:22px 22px 28px;overflow:auto;transform:translateX(102%);transition:transform .2s;visibility:hidden}
+.panel-side.on{transform:none;visibility:visible}
+.panel-side .x{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--panel);font-size:20px;line-height:1}
+.panel-side h2{font:400 30px/1.1 var(--display);margin:4px 40px 4px 0}
+.panel-side dl{display:grid;grid-template-columns:96px 1fr;gap:7px 12px;margin:16px 0;font-size:14.5px}
+.panel-side dt{color:var(--text2)}
+.panel-side dd{margin:0}
+.panel-side h4{margin:18px 0 8px;font-size:13px;color:var(--yellow);letter-spacing:.04em;text-transform:uppercase}
+.notes{white-space:pre-wrap;color:var(--text)}
+.chipbox{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tchip{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:2px 4px 2px 10px;font-size:13px;display:inline-flex;align-items:center;gap:6px}
+.tchip button{border:0;background:none;color:var(--muted);font-size:15px;line-height:1;padding:0 6px}
+.seg-st{display:flex;flex-wrap:wrap;gap:6px}
+.seg-st button{flex:1 1 auto;min-height:40px;border:1px solid var(--line);background:var(--panel2);border-radius:8px;padding:0 12px;font-weight:600;font-size:13.5px}
+.seg-st button[aria-pressed=true]{border-color:var(--accent);background:var(--accent-bg);color:var(--accent-text)}
+.stepper{display:flex;gap:6px;align-items:center}
+.stepper button{width:40px;height:40px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);font-size:20px}
+.stepper input{text-align:center;width:70px}
+.toast{position:fixed;left:50%;bottom:calc(24px + var(--bot));transform:translateX(-50%);background:var(--drawer);color:var(--text);border:1px solid var(--line);padding:10px 16px;border-radius:10px;z-index:90;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.5);max-width:92vw}
+.toast.err{border-color:var(--pink)}
+.fab{position:fixed;right:18px;bottom:calc(76px + var(--bot));z-index:35;display:none;min-height:52px;padding:0 20px;border-radius:999px;background:var(--accent);border:0;color:#fff;font-weight:700;box-shadow:0 8px 22px rgba(0,0,0,.5)}
+footer{margin-top:40px;text-align:center;font-size:12.5px;color:var(--muted)}
+footer button{background:none;border:0;color:var(--text2);text-decoration:underline;font-size:12.5px;padding:4px 6px}
+.edit-only{display:none}
+body.editing .edit-only{display:inline-flex}
+body.editing div.edit-only,body.editing .edit-block{display:block}
+body.editing .acts.edit-only{display:flex}
+.edit-block{display:none}
+.help{font-size:13px;color:var(--text2);line-height:1.5}
+.help ol{padding-left:20px;margin:8px 0}
+code{background:var(--panel2);padding:1px 6px;border-radius:5px;font-size:12.5px}
+.tip{position:fixed;z-index:95;pointer-events:none;background:var(--drawer);color:var(--text);border:1px solid var(--line);padding:5px 9px;border-radius:6px;font-size:12.5px;display:none;max-width:260px}
+
+@media (max-width:860px){
+  .list-head{display:none}
+  .item{grid-template-columns:1fr auto;gap:6px 10px;padding:13px 14px}
+  .item .c-team{grid-column:1/-1;order:5}
+  .item .c-pg{grid-column:1/-1;order:6}
+  header.top{min-height:56px;gap:10px}
+  .brand{font-size:23px}
+  .brand small{display:none}
+  nav.main{display:none}
+  .bottomnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--hdr);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);border-top:1px solid var(--line);padding-bottom:var(--bot)}
+  .bottomnav button{flex:1;min-height:56px;background:none;border:0;color:var(--text2);font-weight:600;font-size:12.5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+  .bottomnav button[aria-current=page]{color:var(--yellow)}
+  .bottomnav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  body.editing .fab{display:inline-flex;align-items:center}
+  .cards{grid-template-columns:1fr}
+  .tiles{grid-template-columns:repeat(2,1fr)}
+  .mini.four{grid-template-columns:repeat(2,1fr)}
+  .panel-side{width:100%;border-left:0}
+  .hb{grid-template-columns:minmax(80px,120px) 1fr 34px}
+  .hdr-actions{margin-left:auto}
+  body.editing #logBtn{display:none}
+  #syncTxt{display:none}
+  .brand{font-size:21px}
+}
+@media (max-width:1000px) and (min-width:861px){.tiles{grid-template-columns:repeat(3,1fr)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div id="pvBanner" hidden style="background:var(--yellow-bg);color:var(--yellow);text-align:center;font-size:13px;padding:6px 12px">Preview copy: your edits save here only, not to GitHub.</div>
+<header class="top">
+  <a class="brand" href="#now">Pokémon Games Tracker<small>ROM hacks &amp; fan games, played and logged</small></a>
+  <nav class="main" aria-label="Sections">
+    <button data-nav="now">Now</button>
+    <button data-nav="library">Library</button>
+    <button data-nav="stats">Stats</button>
+  </nav>
+  <div class="hdr-actions">
+    <span class="sync" id="sync" hidden><i></i><span id="syncTxt"></span></span>
+    <button class="btn icon" id="themeBtn" aria-label="Switch light or dark mode" data-tip="Light / dark"><svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+    <button class="btn primary edit-only" id="logBtn">+ Log session</button>
+  </div>
+</header>
+
+<main>
+  <section class="view" id="v-now"></section>
+  <section class="view" id="v-library"></section>
+  <section class="view" id="v-stats"></section>
+  <footer>
+    <span id="foot"></span>
+    <button id="settingsBtn" hidden>Edit mode &amp; settings</button>
+  </footer>
+</main>
+
+<button class="fab" id="fab">+ Log</button>
+<nav class="bottomnav" aria-label="Sections">
+  <button data-nav="now"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h6M15 12h6"/><circle cx="12" cy="12" r="3"/></svg>Now</button>
+  <button data-nav="library"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Library</button>
+  <button data-nav="stats"><svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Stats</button>
+</nav>
+
+<div id="scrim"></div>
+<aside class="panel-side" id="drawer" aria-label="Game details"></aside>
+<aside class="panel-side" id="sheet" aria-label="Log a session"></aside>
+<div class="tip" id="tip"></div>
+<datalist id="species"></datalist>
+
+<script>
+/* ---------- config ---------- */
+const OWNER='veturian', REPO='romlog', PATH='data/games.json';
+const STATUSES=['Playing','Completed','Abandoned','Not Started','Not Interested'];
+const STATUS_ORDER={'Playing':0,'Completed':1,'Abandoned':2,'Not Started':3,'Not Interested':4};
+const STATUS_COLOR={'Playing':'#2f9ecb','Completed':'#12d89a','Abandoned':'#f0507c','Not Started':'#75746c','Not Interested':'#ffd873'};
+const UNITS=['Badges','Gyms','Chapters','Story %','Custom…'];
+const SPRITE='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
+const STALE_DAYS=7;
+
+/* ---------- state ---------- */
+let games=[], sha=null, sprites={}, species=[];
+let token=lsGet('pt-token')||'';
+let ui={view:'now', q:'', status:'', type:'', base:'', rating:'', sort:'status', monMode:'all'};
+let saving=Promise.resolve(), dirty=false, previewDb=null;
+
+function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function lsSet(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const stCls=s=>'st-'+s.replace(/\s+/g,'-');
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function daysAgo(ds){if(!ds)return null;const a=new Date(ds+'T00:00:00'),b=new Date(today()+'T00:00:00');return Math.round((b-a)/864e5)}
+function fmtDate(ds){if(!ds)return '';const d=new Date(ds+'T00:00:00');return d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}
+function short(t){return t.replace(/^Pok[eé]mon\s+/i,'')}
+const PREVIEW=!!window.PT_PREVIEW;
+document.documentElement.style.setProperty('--bgimg','url("'+((PREVIEW&&window.PT_INLINE.bg)||'data/bg.jpg')+'")');
+const editing=()=>!!token||PREVIEW;
+
+/* ---------- data ---------- */
+const b64enc=s=>btoa(unescape(encodeURIComponent(s)));
+const b64dec=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
+const api=p=>`https://api.github.com/repos/${OWNER}/${REPO}/contents/${p}`;
+const norm=l=>{l.forEach(g=>{g.log=g.log||[];g.team=g.team||[];g.notes=g.notes||''});return l};
+const clone=o=>JSON.parse(JSON.stringify(o));
+
+/* base = what the saved copy looked like when we last synced.
+   On save we work out what THIS device changed (added / edited / deleted by id)
+   and apply only that onto the freshest saved copy. So a delete stays deleted,
+   and an old open tab can't bring deleted games back or undo other edits. */
+let base=new Map();
+const snap=l=>new Map(l.map(g=>[g.id,JSON.stringify(g)]));
+function diff(){
+  const cur=snap(games),add=[],chg=[],del=[];
+  games.forEach(g=>{const b=base.get(g.id);if(b===undefined)add.push(g);else if(b!==cur.get(g.id))chg.push(g)});
+  base.forEach((_,id)=>{if(!cur.has(id))del.push(id)});
+  return {add,chg,del};
+}
+function applyDiff(remote,d){
+  const gone=new Set(d.del),edited=new Map(d.chg.map(g=>[g.id,g]));
+  const out=remote.filter(g=>!gone.has(g.id)).map(g=>edited.get(g.id)||g);
+  const have=new Set(out.map(g=>g.id));
+  d.add.forEach(g=>{if(!have.has(g.id))out.push(g)});
+  return out;
+}
+const ghHeaders=()=>({Authorization:'Bearer '+token,Accept:'application/vnd.github+json'});
+const remote={
+  async get(){
+    if(PREVIEW){
+      if(!previewDb)throw new Error('no storage');
+      const snapd=await previewDb.doc('tracker/state').get();const dat=snapd&&(snapd.data?snapd.data():snapd);
+      const fresh=dat&&dat.json&&dat.v===window.PT_INLINE.v;   // saved copy from an older build is replaced by the new data
+      return {games:norm(fresh?JSON.parse(dat.json).games:clone(window.PT_INLINE.games))};
+    }
+    const r=await fetch(api(PATH),{headers:ghHeaders(),cache:'no-store'});
+    if(!r.ok)throw new Error(r.status);
+    const j=await r.json();return {sha:j.sha,games:norm(JSON.parse(b64dec(j.content)).games)};
+  },
+  async put(list,sha,msg){
+    if(PREVIEW){await previewDb.doc('tracker/state').set({json:JSON.stringify({games:list}),updated:today(),v:window.PT_INLINE.v});return {ok:true}}
+    const r=await fetch(api(PATH),{method:'PUT',headers:ghHeaders(),body:JSON.stringify({message:msg||'Update tracker',content:b64enc(JSON.stringify({updated:today(),games:list},null,1)),sha})});
+    return {ok:r.ok,conflict:r.status===409||r.status===422,status:r.status};
+  }
+};
+
+async function load(){
+  let done=false;
+  if(PREVIEW){
+    games=clone(window.PT_INLINE.games);
+    try{
+      const c=await Promise.race([claude.use('db'),new Promise(r=>setTimeout(()=>r(null),4000))]);
+      if(c){previewDb=c;games=(await remote.get()).games}
+    }catch(e){console.warn('preview db unavailable',e)}
+    norm(games);base=snap(games);
+    setSync(previewDb?'ok':'err',previewDb?'Preview · saved to this page':'Preview · not saving');
+    return;
+  }
+  if(token){
+    try{const r=await remote.get();games=r.games;done=true;setSync('ok','Synced')}
+    catch(e){setSync('err',String(e.message)==='401'?'Token rejected':'Could not reach repo')}
+  }
+  if(!done){
+    const r=await fetch('data/games.json?'+Date.now());
+    games=norm((await r.json()).games);
+  }
+  base=snap(games);
+}
+
+function setSync(kind,txt){
+  const el=$('#sync');el.hidden=!editing();el.className='sync '+kind;$('#syncTxt').textContent=txt;
+}
+
+function save(msg){
+  if(!PREVIEW&&!token){toast('Read-only: add a token in settings to save changes','err');return Promise.resolve(false)}
+  dirty=true;setSync('busy','Saving…');
+  saving=saving.then(async()=>{
+    try{
+      for(let attempt=0;attempt<4;attempt++){
+        const r=await remote.get();
+        const d=diff();
+        const merged=applyDiff(r.games,d);
+        const res=await remote.put(merged,r.sha,msg);
+        if(res.conflict)continue;                 // someone saved in between: re-read and re-apply
+        if(!res.ok)throw new Error(res.status||'failed');
+        const lost=d.chg.filter(g=>!merged.some(m=>m.id===g.id)).length;
+        games=norm(merged);base=snap(games);dirty=false;
+        setSync('ok',PREVIEW?'Preview · saved to this page':'Saved');
+        if(d.add.length||d.chg.length||d.del.length||lost)renderAll();
+        if(lost)toast(lost+' edited game'+(lost>1?'s were':' was')+' already deleted on another device, so it stays deleted.');
+        return true;
+      }
+      throw new Error('kept conflicting');
+    }catch(e){
+      setSync('err','Not saved');
+      toast(PREVIEW?('Preview couldn’t save this change ('+(e.message||e)+').'):('Could not save to GitHub ('+(e.message||e)+'). Your change is still on screen; try again.'),'err');
+      return false;
+    }
+  });
+  return saving;
+}
+
+/* ---------- sprites ---------- */
+const spriteId=n=>sprites[String(n).toLowerCase().replace(/’/g,"'")];
+function sprite(n){
+  const id=spriteId(n);
+  if(!id)return `<span class="ph" title="${esc(n)}" aria-label="${esc(n)}">${esc(n.charAt(0))}</span>`;
+  return `<img loading="lazy" src="${PREVIEW?(window.PT_INLINE.img[id]||''):SPRITE+id+'.png'}" alt="${esc(n)}" title="${esc(n)}">`;
+}
+document.addEventListener('error',e=>{
+  const t=e.target;if(t.tagName==='IMG'&&t.closest('.sprites,.hb')){const s=document.createElement('span');s.className='ph';s.textContent=(t.alt||'?').charAt(0);s.title=t.alt;t.replaceWith(s)}
+},true);
+const teamHtml=(team,cls='')=>team&&team.length?`<span class="sprites ${cls}">${team.map(sprite).join('')}</span>`:'<span class="tag">—</span>';
+
+/* ---------- in-page confirm (browser confirm() is blocked in some frames) ---------- */
+function ask(msg,ok='OK',danger=false){
+  return new Promise(res=>{
+    const w=document.createElement('div');
+    w.style.cssText='position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:20px';
+    w.innerHTML=`<div role="dialog" aria-modal="true" style="background:var(--drawer);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:20px;max-width:380px;width:100%"><p style="margin:0 0 16px">${esc(msg)}</p><div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" data-a="0">Cancel</button><button class="btn ${danger?'danger':'primary'}" data-a="1">${esc(ok)}</button></div></div>`;
+    w.onclick=e=>{const a=e.target.getAttribute('data-a');if(a!==null||e.target===w){w.remove();res(a==='1')}};
+    document.body.appendChild(w);w.querySelector('[data-a="1"]').focus();
+  });
+}
+
+/* ---------- helpers ---------- */
+function progText(g){
+  const p=g.progress;if(!p)return '';
+  let s='';
+  if(p.unit==='Story %'&&p.cur!=null&&p.cur!=='')s=p.cur+'% through';
+  else if(p.cur!=null&&p.cur!==''){s=p.total?`${p.cur}/${p.total} ${p.unit.toLowerCase()}`:`${p.cur} ${p.unit.toLowerCase()}`}
+  if(p.where)s+=(s?' · ':'')+p.where;
+  return s;
+}
+function progPct(g){const p=g.progress;if(!p||p.cur==null||p.cur==='')return null;if(p.unit==='Story %')return +p.cur;if(p.total)return Math.min(100,p.cur/p.total*100);return null}
+function syncRuns(g){if(g.runs&&g.runs.length){const r=g.runs[g.runs.length-1];r.team=[...g.team];r.rating=g.rating;if(g.ended)r.ended=g.ended}}
+const teamsOf=g=>g.runs&&g.runs.length?g.runs.map(r=>r.team||[]):[g.team];
+function lastLog(g){return g.log.length?g.log.map(l=>l.d).sort().slice(-1)[0]:(g.started||'')}
+function stars(r){return r==null?'<span class="tag">—</span>':`<span class="rt">${r}<span class="tag">/10</span></span>`}
+function toast(msg,kind){
+  const t=document.createElement('div');t.className='toast'+(kind==='err'?' err':'');t.textContent=msg;document.body.appendChild(t);
+  setTimeout(()=>t.remove(),kind==='err'?6000:2600);
+}
+function uniqueSlug(title){
+  let s=title.replace(/^pok[eé]mon\s+/i,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'game';
+  let o=s,i=2;while(games.some(g=>g.id===o))o=s+'-'+i++;return o;
+}
+
+/* ---------- NOW view ---------- */
+function renderNow(){
+  const playing=games.filter(g=>g.status==='Playing');
+  const nexts=games.filter(g=>g.next&&g.status==='Not Started');
+  const fin=games.filter(g=>g.status==='Completed'&&g.ended).sort((a,b)=>b.ended.localeCompare(a.ended)).slice(0,4);
+  const acts=[];
+  games.forEach(g=>g.log.forEach(l=>acts.push({g,l})));
+  acts.sort((a,b)=>b.l.d.localeCompare(a.l.d));
+  let h='<h2 class="sec">Currently playing</h2>';
+  if(!playing.length)h+=`<div class="empty">Nothing in progress. Pick something from <b>Up next</b> or the <a href="#library" data-go="library">library</a>.</div>`;
+  else h+='<div class="cards">'+playing.map(g=>{
+    const ll=lastLog(g),da=daysAgo(ll),pct=progPct(g);
+    const fresh=ll?(da>=STALE_DAYS?`<span class="stale">Last logged ${da} days ago. Where did you leave off?</span>`:`<span class="fresh">Last logged ${da===0?'today':da+' day'+(da>1?'s':'')+' ago'}</span>`):`<span class="stale">No sessions logged yet</span>`;
+    return `<article class="card play" data-open="${g.id}">
+      <h3>${esc(g.title)}</h3>
+      <div class="meta tag">${esc(g.type)}${g.base?' · '+esc(g.base):''}</div>
+      ${teamHtml(g.team,'lg')}
+      ${g.progress?`<div class="bar" role="img" aria-label="Progress"><i style="width:${pct==null?0:pct}%"></i></div><div class="sub">${esc(progText(g))||'No progress entered'}</div>`:''}
+      <div style="margin-top:8px">${fresh}</div>
+      <div class="acts edit-only"><button class="btn primary sm" data-log="${g.id}">Log session</button><button class="btn sm" data-fin="${g.id}:Completed">Finished</button><button class="btn sm" data-fin="${g.id}:Abandoned">Drop</button></div>
+    </article>`}).join('')+'</div>';
+  if(nexts.length){
+    h+='<h2 class="sec">Up next</h2><div class="mini">'+nexts.map(g=>`<button data-open="${g.id}"><b>${esc(g.title)}</b><span class="tag">${esc(g.type)}${g.base?' · '+esc(g.base):''}</span></button>`).join('')+'</div>';
+  }
+  if(fin.length){
+    h+='<h2 class="sec">Recently finished</h2><div class="mini four">'+fin.map(g=>`<button data-open="${g.id}"><b>${esc(g.title)}</b><span class="tag">${fmtDate(g.ended)}${g.rating!=null?' · '+g.rating+'/10':''}</span>${teamHtml(g.team,'sm')}</button>`).join('')+'</div>';
+  }
+  h+='<h2 class="sec">Session log</h2>';
+  h+=acts.length?`<div class="card" style="padding:6px 18px">${acts.slice(0,12).map(({g,l})=>`<div class="logline"><span class="d">${fmtDate(l.d)}</span><span><b>${esc(short(g.title))}</b>${l.p?` <span class="tag">· ${esc(l.p)}</span>`:''}${l.t?`<br><span style="color:var(--text2)">${esc(l.t)}</span>`:''}</span></div>`).join('')}</div>`
+    :`<div class="empty">Session entries will show up here once you start logging them.</div>`;
+  $('#v-now').innerHTML=h;
+}
+
+/* ---------- LIBRARY view ---------- */
+function filtered(){
+  const q=ui.q.trim().toLowerCase();
+  let l=games.filter(g=>{
+    if(q&&!(g.title.toLowerCase().includes(q)||(g.base||'').toLowerCase().includes(q)||g.team.some(m=>m.toLowerCase().includes(q))||(g.notes||'').toLowerCase().includes(q)))return false;
+    if(ui.status&&g.status!==ui.status)return false;
+    if(ui.type&&g.type!==ui.type)return false;
+    if(ui.base&&g.base!==ui.base)return false;
+    if(ui.rating==='rated'&&g.rating==null)return false;
+    if(ui.rating==='unrated'&&g.rating!=null)return false;
+    if(['9','7','5'].includes(ui.rating)&&(g.rating==null||g.rating<+ui.rating))return false;
+    return true;
+  });
+  const by={
+    status:(a,b)=>STATUS_ORDER[a.status]-STATUS_ORDER[b.status]||short(a.title).localeCompare(short(b.title)),
+    title:(a,b)=>short(a.title).localeCompare(short(b.title)),
+    rating:(a,b)=>(b.rating??-1)-(a.rating??-1)||short(a.title).localeCompare(short(b.title)),
+    recent:(a,b)=>(b.ended||lastLog(b)||'').localeCompare(a.ended||lastLog(a)||'')||short(a.title).localeCompare(short(b.title))
+  };
+  return l.sort(by[ui.sort]);
+}
+function renderLibraryShell(){
+  const bases=[...new Set(games.map(g=>g.base).filter(Boolean))].sort();
+  const counts={};games.forEach(g=>counts[g.status]=(counts[g.status]||0)+1);
+  $('#v-library').innerHTML=`
+    <div class="ctrls">
+      <input type="text" id="q" placeholder="Search titles, base games, Pokémon, notes…" value="${esc(ui.q)}" aria-label="Search">
+      <select id="fType" aria-label="Type"><option value="">All types</option><option ${ui.type==='ROM Hack'?'selected':''}>ROM Hack</option><option ${ui.type==='Fan Game'?'selected':''}>Fan Game</option></select>
+      <select id="fBase" aria-label="Base game"><option value="">All base games</option>${bases.map(b=>`<option ${ui.base===b?'selected':''}>${esc(b)}</option>`).join('')}</select>
+      <select id="fRating" aria-label="Rating">${[['','Rating: any'],['9','9+'],['7','7+'],['5','5+'],['rated','Rated only'],['unrated','Unrated only']].map(([v,t])=>`<option value="${v}" ${ui.rating===v?'selected':''}>${t}</option>`).join('')}</select>
+      <select id="fSort" aria-label="Sort">${[['status','Sort: status'],['title','Sort: title'],['rating','Sort: rating'],['recent','Sort: most recent']].map(([v,t])=>`<option value="${v}" ${ui.sort===v?'selected':''}>${t}</option>`).join('')}</select>
+      <button class="btn edit-only" id="addBtn">+ Add game</button>
+      <button class="btn edit-only" id="bulkBtn">Bulk add</button>
+    </div>
+    <div class="chips" role="group" aria-label="Status filter">
+      <button class="chip" data-st="" aria-pressed="${ui.status===''}">All<em>${games.length}</em></button>
+      ${STATUSES.map(s=>`<button class="chip" data-st="${s}" aria-pressed="${ui.status===s}">${s==='Not Started'?'Backlog':s}<em>${counts[s]||0}</em></button>`).join('')}
+    </div>
+    <div class="count" id="count"></div>
+    <div class="list"><div class="list-head"><span>Title</span><span>Status</span><span>Rating</span><span>Team</span><span>Progress</span></div><div id="rows"></div></div>`;
+  renderRows();
+}
+function renderRows(){
+  const l=filtered();
+  $('#count').textContent=`Showing ${l.length} of ${games.length} games`;
+  $('#rows').innerHTML=l.length?l.map(g=>`<button class="item" data-open="${g.id}">
+    <span><span class="t">${esc(g.title)}${g.next?'<span class="nextmark" title="Up next">★</span>':''}</span><br><span class="tag">${esc(g.type)}${g.base?' · '+esc(g.base):''}</span></span>
+    <span><span class="pill ${stCls(g.status)}">${g.status}</span></span>
+    <span>${stars(g.rating)}</span>
+    <span class="c-team">${teamHtml(g.team)}</span>
+    <span class="c-pg pg">${esc(progText(g))||''}</span></button>`).join(''):'<div class="empty" style="border:0">No games match your filters.</div>';
+}
+
+/* ---------- STATS view ---------- */
+function bars(rows,fmt){
+  const max=Math.max(1,...rows.map(r=>r.v));
+  return rows.map(r=>`<div class="hb" data-tip="${esc(r.tip||r.k+': '+r.v)}"><span class="lab">${r.icon||''}<span style="overflow:hidden;text-overflow:ellipsis">${esc(r.k)}</span></span><span class="tr"><i style="width:${r.v/max*100}%"></i></span><span class="v">${fmt?fmt(r.v):r.v}</span></div>`).join('');
+}
+function renderStats(){
+  const done=games.filter(g=>g.status==='Completed'), drop=games.filter(g=>g.status==='Abandoned');
+  const played=games.filter(g=>['Playing','Completed','Abandoned'].includes(g.status));
+  const rated=games.filter(g=>g.rating!=null);
+  const avg=rated.length?(rated.reduce((s,g)=>s+g.rating,0)/rated.length):null;
+  const finishRate=(done.length+drop.length)?Math.round(done.length/(done.length+drop.length)*100):null;
+  const backlog=games.filter(g=>g.status==='Not Started').length;
+  const useGames=ui.monMode==='done'?done:games;
+  const mons={};useGames.forEach(g=>new Set(teamsOf(g).flat()).forEach(m=>mons[m]=(mons[m]||0)+1));
+  const allMons={};games.forEach(g=>new Set(teamsOf(g).flat()).forEach(m=>allMons[m]=(allMons[m]||0)+1));
+  const top=Object.entries(mons).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,12);
+  // status stack
+  const cnt={};games.forEach(g=>cnt[g.status]=(cnt[g.status]||0)+1);
+  // completions by month (last 12 with data)
+  const mo={};done.filter(g=>g.ended).forEach(g=>{const k=g.ended.slice(0,7);mo[k]=(mo[k]||0)+1});
+  const keys=Object.keys(mo).sort();
+  let months=[];
+  if(keys.length){
+    let [y,m]=keys[0].split('-').map(Number);const [ye,me]=keys[keys.length-1].split('-').map(Number);
+    while(y<ye||(y===ye&&m<=me)){months.push(y+'-'+String(m).padStart(2,'0'));m++;if(m>12){m=1;y++}}
+    months=months.slice(-12);
+  }
+  const mmax=Math.max(1,...months.map(k=>mo[k]||0));
+  const mn=k=>new Date(k+'-01T00:00:00').toLocaleDateString(undefined,{month:'short'});
+  const undated=done.filter(g=>!g.ended).length;
+  // ratings
+  const rd=[];for(let i=10;i>=1;i--)rd.push({k:i+'/10',v:rated.filter(g=>g.rating===i).length});
+  // base games (played only)
+  const bg={};played.forEach(g=>{const b=g.base||(g.type==='Fan Game'?'Standalone fan games':'Unknown');bg[b]=(bg[b]||0)+1});
+  const bgRows=Object.entries(bg).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([k,v])=>({k,v,tip:`${k}: ${v} played`}));
+  const tens=games.filter(g=>g.rating===10);
+  const unique=Object.keys(allMons).length;
+
+  $('#v-stats').innerHTML=`
+    <h2 class="sec">At a glance</h2>
+    <div class="tiles">
+      <div class="tile"><b>${games.length}</b><span>Games tracked</span></div>
+      <div class="tile"><b>${done.length}</b><span>Completed</span></div>
+      <div class="tile"><b>${finishRate==null?'—':finishRate+'%'}</b><span>Finish rate (done vs. dropped)</span></div>
+      <div class="tile"><b>${avg==null?'—':avg.toFixed(1)}</b><span>Average rating · ${rated.length} rated</span></div>
+      <div class="tile"><b>${backlog}</b><span>In the backlog</span></div>
+      <div class="tile"><b>${unique}</b><span>Different Pokémon used</span></div>
+    </div>
+    <h2 class="sec">Where your games stand</h2>
+    <div class="panel">
+      <div class="stack" role="img" aria-label="Status breakdown">${STATUSES.filter(s=>cnt[s]).map(s=>`<i data-tip="${s}: ${cnt[s]}" style="flex:${cnt[s]};background:${STATUS_COLOR[s]}"></i>`).join('')}</div>
+      <div class="legend">${STATUSES.map(s=>`<span><i style="background:${STATUS_COLOR[s]}"></i>${s==='Not Started'?'Backlog':s} · ${cnt[s]||0}</span>`).join('')}</div>
+    </div>
+    <h2 class="sec">Pokémon usage</h2>
+    <div class="panel">
+      <div class="seg" role="group" aria-label="Which teams to count">
+        <button data-mon="all" aria-pressed="${ui.monMode==='all'}">All teams</button>
+        <button data-mon="done" aria-pressed="${ui.monMode==='done'}">Completed games only</button>
+      </div>
+      <div class="sub" style="margin-top:-4px">Number of games each Pokémon appeared on a team in (counted once per game).</div>
+      ${top.length?bars(top.map(([k,v])=>({k,v,icon:sprite(k),tip:`${k}: on ${v} team${v>1?'s':''}`}))):'<div class="empty">No teams recorded yet.</div>'}
+    </div>
+    <div class="cols" style="margin-top:14px">
+      <div class="panel"><h3>Completions by month</h3><div class="sub">${undated?undated+' completed game'+(undated>1?'s have':' has')+' no date and aren’t shown.':'Games finished per month.'}</div>
+        ${months.length?`<div class="cols-chart">${months.map(k=>`<div class="c" data-tip="${mn(k)} ${k.slice(0,4)}: ${mo[k]||0}"><span class="n">${mo[k]||''}</span><i style="height:${(mo[k]||0)/mmax*100}%;${mo[k]?'':'opacity:.25'}"></i></div>`).join('')}</div><div class="xl">${months.map(k=>`<span>${mn(k)}</span>`).join('')}</div>`:'<div class="empty">No dated completions yet.</div>'}
+      </div>
+      <div class="panel"><h3>Rating spread</h3><div class="sub">${rated.length} rated games.</div>${bars(rd)}</div>
+      <div class="panel"><h3>Played, by base game</h3><div class="sub">Top 10 among games you’ve started.</div>${bars(bgRows)}</div>
+      <div class="panel"><h3>Hall of fame</h3><div class="sub">Everything rated 10/10.</div>${tens.length?`<div class="hof">${tens.map(g=>`<button data-open="${g.id}">${esc(short(g.title))}</button>`).join('')}</div>`:'<div class="empty">No 10s yet.</div>'}</div>
+    </div>`;
+}
+
+/* ---------- DRAWER (detail + edit) ---------- */
+let openId=null, draft=null, mode='view';
+const scrim=$('#scrim'),drawer=$('#drawer'),sheet=$('#sheet');
+function openPanel(el){scrim.classList.add('on');el.classList.add('on')}
+function closePanels(){scrim.classList.remove('on');drawer.classList.remove('on');sheet.classList.remove('on');openId=null}
+scrim.addEventListener('click',closePanels);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanels()});
+
+function openGame(id){
+  const g=games.find(x=>x.id===id);if(!g)return;
+  openId=id;mode='view';drawer.innerHTML=viewGame(g);openPanel(drawer);drawer.scrollTop=0;
+}
+function viewGame(g){
+  const log=[...g.log].sort((a,b)=>b.d.localeCompare(a.d));
+  return `<button class="x" data-close aria-label="Close">×</button>
+    <h2>${esc(g.title)}</h2>
+    <div class="tag">${esc(g.type)}${g.base?' · '+esc(g.base):''}</div>
+    <dl>
+      <dt>Status</dt><dd><span class="pill ${stCls(g.status)}">${g.status}</span>${g.next?' <span class="nextmark">★ Up next</span>':''}</dd>
+      <dt>Rating</dt><dd>${g.rating!=null?g.rating+'/10':'—'}</dd>
+      ${g.started?`<dt>Started</dt><dd>${fmtDate(g.started)}</dd>`:''}
+      ${g.ended?`<dt>${g.status==='Completed'?'Completed':'Ended'}</dt><dd>${fmtDate(g.ended)}</dd>`:''}
+      ${g.progress?`<dt>Progress</dt><dd>${esc(progText(g))||'—'}</dd>`:''}
+    </dl>
+    ${progPct(g)!=null?`<div class="bar"><i style="width:${progPct(g)}%"></i></div>`:''}
+    ${g.runs&&g.runs.length>1?`<h4>Playthroughs</h4>${g.runs.map((r,i)=>[r,i]).reverse().map(([r,i])=>`<div class="run"><div class="runhd"><b>${r.version?'Version '+esc(r.version):'Playthrough '+(i+1)}</b><span class="tag">${[r.base,r.ended?fmtDate(r.ended):'No date',r.rating!=null?r.rating+'/10':''].filter(Boolean).map(esc).join(' · ')}<button class="btn sm edit-only" style="margin-left:8px" data-runedit="${g.id}:${i}">Edit</button></span></div>${r.team&&r.team.length?`<div class="teamgrid">${r.team.map(m=>`<div class="mon"><span class="sprites lg">${sprite(m)}</span><span class="nm">${esc(m)}</span></div>`).join('')}</div>`:'<div class="tag">No team recorded</div>'}</div>`).join('')}`:`<h4>Team</h4>${g.team.length?`<div class="teamgrid">${g.team.map(m=>`<div class="mon"><span class="sprites lg">${sprite(m)}</span><span class="nm">${esc(m)}</span></div>`).join('')}</div>`:'<div class="tag">No team recorded</div>'}`}
+    ${g.notes?`<h4>Notes</h4><div class="notes">${esc(g.notes)}</div>`:''}
+    ${log.length?`<h4>Session log</h4>${log.map(l=>`<div class="logline"><span class="d">${fmtDate(l.d)}</span><span>${l.p?`<span class="tag">${esc(l.p)}</span><br>`:''}${esc(l.t||'')}</span></div>`).join('')}`:''}
+    <div class="edit-block" style="margin-top:22px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" data-log="${g.id}">Log session</button><button class="btn" data-edit="${g.id}">Edit details</button><button class="btn" data-run="${g.id}">+ Add playthrough</button></div>
+    </div>`;
+}
+
+/* shared editor pieces */
+function teamEditor(){return `<div class="field"><label class="f">Team</label>
+  <div style="display:flex;gap:6px"><input type="text" id="tIn" list="species" placeholder="Start typing a Pokémon…" autocomplete="off"><button class="btn" type="button" id="tAdd">Add</button></div>
+  <div class="chipbox" id="tChips"></div></div>`}
+function renderChips(){
+  $('#tChips').innerHTML=draft.team.map((m,i)=>`<span class="tchip">${sprite(m).replace('class="','class="').replace(/<img /,'<img style="width:24px;height:24px;margin:-4px 0;image-rendering:pixelated" ')}${esc(m)}<button type="button" data-rm="${i}" aria-label="Remove ${esc(m)}">×</button></span>`).join('');
+}
+function bindTeam(){
+  const add=async()=>{const el=$('#tIn');let v=el.value.trim();if(!v)return;
+    const canon=species.find(s=>s.toLowerCase()===v.toLowerCase());
+    if(!canon&&!(await ask(`“${v}” isn’t a Pokémon I recognize (fine for fakemon). Add it anyway?`,'Add anyway')))return;
+    draft.team.push(canon||v);el.value='';renderChips();el.focus()};
+  $('#tAdd').onclick=add;
+  $('#tIn').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();add()}});
+  $('#tChips').onclick=e=>{const i=e.target.getAttribute('data-rm');if(i!==null){draft.team.splice(+i,1);renderChips()}};
+  renderChips();
+}
+function progressEditor(){
+  const p=draft.progress;
+  const unit=p?(UNITS.includes(p.unit)?p.unit:'Custom…'):'';
+  return `<div class="field"><label class="f">Progress tracking</label>
+    <select id="pUnit"><option value="">Don’t track a number</option>${UNITS.map(u=>`<option ${unit===u?'selected':''}>${u}</option>`).join('')}</select>
+    <div id="pCustom" style="margin-top:8px;${unit==='Custom…'?'':'display:none'}"><input type="text" id="pCustomIn" placeholder="What are you counting? e.g. Trials, Floors" value="${p&&unit==='Custom…'?esc(p.unit):''}"></div>
+    <div id="pNums" class="row2" style="margin-top:8px;${p?'':'display:none'}">
+      <div><label class="f" id="pCurL">Current</label><div class="stepper"><button type="button" data-step="-1">−</button><input type="number" id="pCur" inputmode="numeric" min="0" value="${p&&p.cur!=null?p.cur:''}"><button type="button" data-step="1">+</button></div></div>
+      <div id="pTotWrap"><label class="f">Out of (optional)</label><input type="number" id="pTot" inputmode="numeric" min="0" value="${p&&p.total!=null?p.total:''}"></div>
+    </div></div>
+    <div class="field"><label class="f">Where I left off</label><input type="text" id="pWhere" placeholder="e.g. Before the Route 120 gym, need Surf" value="${esc(p?p.where||'':'')}"></div>`;
+}
+function bindProgress(){
+  const sel=$('#pUnit');
+  const sync=()=>{
+    const v=sel.value;$('#pNums').style.display=v?'':'none';$('#pCustom').style.display=v==='Custom…'?'':'none';
+    $('#pTotWrap').style.display=v==='Story %'?'none':'';
+    if(v&&!draft.progress)draft.progress={unit:v,cur:null,total:null,where:''};
+  };
+  sel.onchange=sync;sync();
+  $$('[data-step]').forEach(b=>b.onclick=()=>{const i=$('#pCur');i.value=Math.max(0,(+i.value||0)+ +b.dataset.step)});
+}
+function readProgress(){
+  const v=$('#pUnit').value,where=$('#pWhere').value.trim();
+  if(!v&&!where)return null;
+  const unit=v==='Custom…'?($('#pCustomIn').value.trim()||'Progress'):v;
+  const cur=$('#pCur').value===''?null:+$('#pCur').value, tot=($('#pTot').value===''||v==='Story %')?null:+$('#pTot').value;
+  return v?{unit,cur,total:tot,where}:{unit:'',cur:null,total:null,where};
+}
+
+/* edit drawer */
+function editGame(id){
+  const isNew=!id;
+  const g=isNew?{id:'',title:'',type:'ROM Hack',base:'',status:'Not Started',rating:null,started:'',ended:'',team:[],notes:'',progress:null,next:false,log:[]}:games.find(x=>x.id===id);
+  openId=id;mode='edit';draft=JSON.parse(JSON.stringify(g));
+  const bases=[...new Set(games.map(x=>x.base).filter(Boolean))].sort();
+  drawer.innerHTML=`<button class="x" data-close aria-label="Close">×</button>
+    <h2>${isNew?'Add game':'Edit game'}</h2>
+    <div class="field" style="margin-top:14px"><label class="f">Title</label><input type="text" id="eTitle" value="${esc(g.title)}" placeholder="e.g. Pokémon Unbound"></div>
+    <div class="row2">
+      <div class="field"><label class="f">Type</label><select id="eType"><option ${g.type==='ROM Hack'?'selected':''}>ROM Hack</option><option ${g.type==='Fan Game'?'selected':''}>Fan Game</option></select></div>
+      <div class="field"><label class="f">Base game</label><input type="text" id="eBase" list="bases" value="${esc(g.base)}" placeholder="blank if none"><datalist id="bases">${bases.map(b=>`<option>${esc(b)}</option>`).join('')}</datalist></div>
+    </div>
+    <div class="field"><label class="f">Status</label><div class="seg-st" id="eStatus">${STATUSES.map(s=>`<button type="button" data-s="${s}" aria-pressed="${g.status===s}">${s==='Not Started'?'Backlog':s}</button>`).join('')}</div></div>
+    <div class="row3">
+      <div class="field"><label class="f">Rating (0 = none)</label><input type="number" id="eRating" min="0" max="10" inputmode="numeric" value="${g.rating==null?0:g.rating}"></div>
+      <div class="field"><label class="f">Started</label><input type="date" id="eStart" value="${g.started||''}"></div>
+      <div class="field"><label class="f">Finished / dropped</label><input type="date" id="eEnd" value="${g.ended||''}"></div>
+    </div>
+    <div class="field"><label class="f" style="display:flex;gap:8px;align-items:center;font-size:13px"><input type="checkbox" id="eNext" ${g.next?'checked':''} style="width:auto;min-height:0"> Mark as up next ★</label></div>
+    ${teamEditor()}
+    ${progressEditor()}
+    <div class="field"><label class="f">Notes</label><textarea id="eNotes" rows="4" placeholder="Thoughts, quirks, version played…">${esc(g.notes)}</textarea></div>
+    <div style="display:flex;justify-content:space-between;gap:8px;margin-top:18px">
+      <div>${isNew?'':'<button class="btn danger" id="eDel">Delete</button>'}</div>
+      <div style="display:flex;gap:8px"><button class="btn" id="eCancel">Cancel</button><button class="btn primary" id="eSave">Save</button></div>
+    </div>`;
+  openPanel(drawer);bindTeam();bindProgress();
+  $('#eStatus').onclick=e=>{const s=e.target.dataset.s;if(!s)return;draft.status=s;$$('#eStatus button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===s))};
+  $('#eCancel').onclick=()=>isNew?closePanels():openGame(id);
+  $('#eSave').onclick=async()=>{
+    const title=$('#eTitle').value.trim();if(!title){$('#eTitle').style.borderColor='var(--pink)';$('#eTitle').focus();return}
+    const r=+$('#eRating').value;
+    const prev=isNew?null:g.status;
+    Object.assign(draft,{title,type:$('#eType').value,base:$('#eBase').value.trim(),rating:r>0?Math.min(10,r):null,started:$('#eStart').value,ended:$('#eEnd').value,next:$('#eNext').checked,notes:$('#eNotes').value.trim(),progress:readProgress()});
+    if(draft.status==='Playing'&&!draft.started)draft.started=today();
+    if(['Completed','Abandoned'].includes(draft.status)&&!draft.ended&&prev!==draft.status)draft.ended=today();
+    if(draft.status!=='Not Started')draft.next=false;
+    syncRuns(draft);
+    if(isNew){draft.id=uniqueSlug(title);games.push(draft)}else{const i=games.findIndex(x=>x.id===id);games[i]=draft}
+    const msg=(isNew?'Add ':'Update ')+short(title);
+    closePanels();renderAll();save(msg);
+  };
+  if(!isNew)$('#eDel').onclick=async()=>{
+    if(!(await ask(`Delete “${g.title}” from the tracker? This is saved right away and it won’t come back.`,'Delete',true)))return;
+    games=games.filter(x=>x.id!==id);closePanels();renderAll();save('Remove '+short(g.title));
+  };
+}
+
+/* add / edit a playthrough of a game you've already played */
+function topFromRuns(g){const l=g.runs[g.runs.length-1];Object.assign(g,{ended:l.ended||g.ended,rating:l.rating,team:[...(l.team||[])],base:l.base||g.base})}
+function addRun(id,idx){
+  const g=games.find(x=>x.id===id);if(!g)return;
+  const isEdit=idx!==undefined&&idx!==''&&g.runs&&g.runs[+idx];
+  const cur=isEdit?g.runs[+idx]:{version:'',base:g.base,ended:today(),rating:null,team:[]};
+  draft={team:[...(cur.team||[])]};mode='run';
+  drawer.innerHTML=`<button class="x" data-close aria-label="Close">×</button>
+    <h2>${isEdit?'Edit playthrough':'Add playthrough'}</h2><div class="sub">${esc(g.title)}${isEdit?'':(g.runs&&g.runs.length?` · ${g.runs.length} so far`:' · this will be its second run')}</div>
+    <div class="row2" style="margin-top:14px">
+      <div class="field"><label class="f">Version played</label><input type="text" id="rVer" placeholder="e.g. 3.0" value="${esc(cur.version||'')}"></div>
+      <div class="field"><label class="f">Base game</label><input type="text" id="rBase" value="${esc(cur.base||'')}"></div></div>
+    <div class="row2">
+      <div class="field"><label class="f">Finished on</label><input type="date" id="rEnd" value="${esc(cur.ended||'')}"></div>
+      <div class="field"><label class="f">Rating (0 = none)</label><input type="number" id="rRate" min="0" max="10" inputmode="numeric" value="${cur.rating==null?0:cur.rating}"></div></div>
+    ${teamEditor()}
+    <div style="display:flex;justify-content:space-between;gap:8px;margin-top:18px"><div>${isEdit&&g.runs.length>1?'<button class="btn danger" id="rDel">Delete this run</button>':''}</div><div style="display:flex;gap:8px"><button class="btn" id="rCancel">Cancel</button><button class="btn primary" id="rSave">Save playthrough</button></div></div>`;
+  openPanel(drawer);bindTeam();
+  $('#rCancel').onclick=()=>openGame(id);
+  if(isEdit&&g.runs.length>1)$('#rDel').onclick=async()=>{
+    if(!(await ask('Delete this playthrough from '+short(g.title)+'?','Delete',true)))return;
+    g.runs.splice(+idx,1);topFromRuns(g);renderAll();save('Remove playthrough: '+short(g.title));openGame(id)};
+  $('#rSave').onclick=()=>{
+    const r=+$('#rRate').value;
+    const run={version:$('#rVer').value.trim(),base:$('#rBase').value.trim(),ended:$('#rEnd').value,rating:r>0?Math.min(10,r):null,team:draft.team};
+    if(isEdit){g.runs[+idx]=run}
+    else{
+      if(!g.runs||!g.runs.length)g.runs=[{version:'',base:g.base,ended:g.ended,rating:g.rating,team:[...g.team]}];
+      g.runs.push(run);Object.assign(g,{status:'Completed',next:false});
+    }
+    topFromRuns(g);
+    closePanels();renderAll();save((isEdit?'Edit':'Add')+' playthrough: '+short(g.title));toast('Playthrough saved');openGame(id);
+  };
+}
+
+/* quick log sheet */
+function openLog(id){
+  if(!editing())return;
+  const playing=games.filter(g=>g.status==='Playing');
+  const start=id||(playing.length===1?playing[0].id:'');
+  openId=start;
+  const opts=[...playing,...games.filter(g=>g.status!=='Playing').sort((a,b)=>short(a.title).localeCompare(short(b.title)))];
+  sheet.innerHTML=`<button class="x" data-close aria-label="Close">×</button>
+    <h2>Log a session</h2><div class="sub">Takes about ten seconds. Everything except the game is optional.</div>
+    <div class="field" style="margin-top:14px"><label class="f">Game</label>
+      <select id="lGame"><option value="">Choose a game…</option>${playing.length?`<optgroup label="Playing">${playing.map(g=>`<option value="${g.id}" ${g.id===start?'selected':''}>${esc(short(g.title))}</option>`).join('')}</optgroup>`:''}<optgroup label="Everything else">${opts.filter(g=>g.status!=='Playing').map(g=>`<option value="${g.id}" ${g.id===start?'selected':''}>${esc(short(g.title))}</option>`).join('')}</optgroup></select></div>
+    <div id="lBody"></div>`;
+  openPanel(sheet);
+  $('#lGame').onchange=()=>fillLog($('#lGame').value);
+  fillLog(start);
+}
+function fillLog(id){
+  const body=$('#lBody');
+  if(!id){body.innerHTML='';return}
+  const g=games.find(x=>x.id===id);
+  draft=JSON.parse(JSON.stringify(g));
+    body.innerHTML=`
+    <div class="field"><label class="f">Status</label><div class="seg-st" id="lStatus">${['Playing','Completed','Abandoned'].map(s=>`<button type="button" data-s="${s}" aria-pressed="${(g.status===s)||(g.status!=='Completed'&&g.status!=='Abandoned'&&g.status!=='Playing'&&s==='Playing')}">${s}</button>`).join('')}</div></div>
+    ${progressEditor()}
+    <div class="field"><label class="f">What happened? (optional)</label><textarea id="lNote" rows="3" placeholder="Beat gym 4, picked up Gallade, hit a wall at the Team Magma base…"></textarea></div>
+    ${teamEditor()}
+    <div class="row2">
+      <div class="field"><label class="f">Date</label><input type="date" id="lDate" value="${today()}"></div>
+      <div class="field"><label class="f">Rating (0 = none)</label><input type="number" id="lRating" min="0" max="10" inputmode="numeric" value="${g.rating==null?0:g.rating}"></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:8px"><button class="btn" id="lCancel">Cancel</button><button class="btn primary" id="lSave">Save session</button></div>`;
+  bindTeam();bindProgress();
+  let status=(['Playing','Completed','Abandoned'].includes(g.status))?g.status:'Playing';
+  $('#lStatus').onclick=e=>{const s=e.target.dataset.s;if(!s)return;status=s;$$('#lStatus button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===s))};
+  $('#lCancel').onclick=closePanels;
+  $('#lSave').onclick=()=>{
+    const d=$('#lDate').value||today(), note=$('#lNote').value.trim(), prog=readProgress();
+    const target=games.find(x=>x.id===id);
+    const before=progText({progress:target.progress});
+    target.progress=prog;
+    target.team=draft.team;
+    const r=+$('#lRating').value;target.rating=r>0?Math.min(10,r):null;
+    if(status!==target.status){
+      if(status==='Playing'&&!target.started)target.started=d;
+      if(status!=='Playing')target.ended=d;
+      if(status==='Playing')target.ended='';
+      target.status=status;target.next=false;
+    }
+    if(target.status==='Playing'&&!target.started)target.started=d;
+    syncRuns(target);
+    const pt=progText({progress:prog});
+    target.log.push({d,t:note,p:pt&&pt!==before?pt:''});
+    closePanels();renderAll();save(`Log: ${short(target.title)}`);
+    toast('Session logged');
+  };
+}
+
+/* ---------- bulk add ---------- */
+function bulkAdd(){
+  drawer.innerHTML=`<button class="x" data-close aria-label="Close">×</button><h2>Bulk add</h2>
+    <div class="field" style="margin-top:14px"><label class="f">One title per line</label><textarea id="bT" rows="8" placeholder="Pokémon Clover&#10;Pokémon Vega"></textarea></div>
+    <div class="row2"><div class="field"><label class="f">Type</label><select id="bType"><option>ROM Hack</option><option>Fan Game</option></select></div>
+    <div class="field"><label class="f">Base game (optional)</label><input type="text" id="bBase"></div></div>
+    <div class="sub">Titles already in your list are skipped. New games go in the backlog.</div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button class="btn" data-close>Cancel</button><button class="btn primary" id="bGo">Add games</button></div>`;
+  openPanel(drawer);
+  $('#bGo').onclick=()=>{
+    const norm=t=>t.toLowerCase().replace(/^pok[eé]mon\s+/,'').trim();
+    const have=new Set(games.map(g=>norm(g.title)));let a=0,s=0;
+    $('#bT').value.split('\n').map(x=>x.trim()).filter(Boolean).forEach(t=>{
+      if(have.has(norm(t))){s++;return}have.add(norm(t));a++;
+      games.push({id:uniqueSlug(t),title:t,type:$('#bType').value,base:$('#bBase').value.trim(),status:'Not Started',rating:null,started:'',ended:'',team:[],notes:'',progress:null,next:false,log:[]});
+    });
+    closePanels();renderAll();if(a)save(`Add ${a} game${a>1?'s':''}`);toast(`Added ${a}${s?`, skipped ${s} duplicate${s>1?'s':''}`:''}`);
+  };
+}
+
+/* ---------- settings ---------- */
+function openSettings(){
+  if(PREVIEW){
+    drawer.innerHTML=`<button class="x" data-close aria-label="Close">×</button><h2>Preview mode</h2>
+      <p class="help">This is a tinkering copy. Edits are saved to <b>this page only</b> (not GitHub), so you can add, delete and log freely. On the real site, editing uses a GitHub token and saves to <code>data/games.json</code>.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button class="btn" id="sCopy">Copy games.json</button><button class="btn danger" id="sReset">Reset to original data</button></div>`;
+    openPanel(drawer);
+    $('#sCopy').onclick=async()=>{try{await navigator.clipboard.writeText(JSON.stringify({updated:today(),games},null,1));toast('Copied games.json')}catch(e){toast('Copy was blocked here','err')}};
+    $('#sReset').onclick=async()=>{if(!(await ask('Throw away every preview edit and go back to the original data?','Reset',true)))return;
+      games=JSON.parse(JSON.stringify(window.PT_INLINE.games));games.forEach(g=>{g.log=g.log||[]});closePanels();renderAll();save('Reset');toast('Reset')};
+    return;
+  }
+  drawer.innerHTML=`<button class="x" data-close aria-label="Close">×</button><h2>Edit mode</h2>
+    <p class="help">Visitors see this site read-only. To log and edit from this device, give it a GitHub token that can write to <code>${OWNER}/${REPO}</code>. Changes are saved straight to <code>data/games.json</code> in the repo, so they sync everywhere.</p>
+    <div class="help"><b>One-time setup per device</b><ol>
+      <li>GitHub → Settings → Developer settings → Fine-grained tokens → Generate new token.</li>
+      <li>Repository access: <b>Only select repositories</b> → <code>${REPO}</code>.</li>
+      <li>Permissions → Repository → <b>Contents: Read and write</b>.</li>
+      <li>Paste the token below. It is stored only in this browser.</li></ol></div>
+    <div class="field"><label class="f">GitHub token</label><input type="password" id="sTok" placeholder="github_pat_…" value="${esc(token)}" autocomplete="off"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="sSave">${token?'Update token':'Turn on edit mode'}</button>${token?'<button class="btn danger" id="sOff">Turn off</button>':''}</div>
+    <h4>Backup</h4><button class="btn" id="sExp">Download games.json</button>`;
+  openPanel(drawer);
+  $('#sSave').onclick=async()=>{token=$('#sTok').value.trim();lsSet('pt-token',token||null);closePanels();await boot(true)};
+  if(token)$('#sOff').onclick=()=>{token='';lsSet('pt-token',null);closePanels();boot(true)};
+  $('#sExp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({updated:today(),games},null,1)],{type:'application/json'}));a.download='games.json';a.click()};
+}
+
+/* ---------- routing / events ---------- */
+function setView(v){
+  ui.view=v;
+  $$('section.view').forEach(s=>s.classList.toggle('on',s.id==='v-'+v));
+  $$('[data-nav]').forEach(b=>{if(b.dataset.nav===v)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+  try{if(location.hash.slice(1)!==v)history.replaceState(null,'','#'+v)}catch(e){}
+  window.scrollTo(0,0);
+}
+function showEditLink(){$('#settingsBtn').hidden=!(token||lsGet('pt-edit')||PREVIEW)}
+function renderAll(){showEditLink();
+  document.body.classList.toggle('editing',editing());$('#pvBanner').hidden=!PREVIEW;
+  renderNow();renderLibraryShell();renderStats();
+  const played=games.filter(g=>['Completed','Abandoned','Playing'].includes(g.status)).length;
+  $('#foot').textContent=`${games.length} games tracked · ${played} played · `;
+}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-nav],[data-open],[data-log],[data-edit],[data-close],[data-st],[data-mon],[data-fin],[data-go],[data-run],[data-runedit]');
+  if(!t){return}
+  if(t.dataset.nav){setView(t.dataset.nav);return}
+  if(t.dataset.go){e.preventDefault();setView(t.dataset.go);return}
+  if(t.hasAttribute('data-close')){closePanels();return}
+  if(t.hasAttribute('data-log')){e.stopPropagation();closePanels();setTimeout(()=>openLog(t.dataset.log),0);return}
+  if(t.dataset.edit){editGame(t.dataset.edit);return}
+  if(t.dataset.run){addRun(t.dataset.run);return}
+  if(t.dataset.runedit){const [i,x]=t.dataset.runedit.split(':');addRun(i,x);return}
+  if(t.dataset.fin){e.stopPropagation();const [id,st]=t.dataset.fin.split(':');const g=games.find(x=>x.id===id);
+    ask(`Mark “${short(g.title)}” as ${st.toLowerCase()}?`,st==='Completed'?'Finished':'Drop it').then(ok=>{
+      if(!ok)return;
+      g.status=st;g.ended=today();renderAll();save(`${st}: ${short(g.title)}`);
+      if(st==='Completed'){toast('Nice. Add a rating and final team from the game’s page.');openGame(id)}
+    });
+    return}
+  if(t.dataset.open){openGame(t.dataset.open);return}
+  if(t.dataset.st!==undefined){ui.status=t.dataset.st;renderLibraryShell();return}
+  if(t.dataset.mon){ui.monMode=t.dataset.mon;renderStats();return}
+});
+document.addEventListener('input',e=>{
+  if(e.target.id==='q'){ui.q=e.target.value;renderRows()}
+});
+document.addEventListener('change',e=>{
+  const m={fType:'type',fBase:'base',fRating:'rating',fSort:'sort'}[e.target.id];
+  if(m){ui[m]=e.target.value;renderRows()}
+});
+$('#themeBtn').onclick=()=>{const t=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=t;lsSet('rl-theme',t)};
+$('#logBtn').onclick=()=>openLog('');
+$('#fab').onclick=()=>openLog('');
+$('#settingsBtn').onclick=openSettings;
+document.addEventListener('click',e=>{
+  if(e.target.id==='addBtn')editGame(null);
+  if(e.target.id==='bulkBtn')bulkAdd();
+});
+const WANT_EDIT=location.hash==='#edit';
+function editLink(){if(WANT_EDIT||location.hash==='#edit'){lsSet('pt-edit','1');showEditLink();setView('now');setTimeout(openSettings,0)}}
+window.addEventListener('hashchange',()=>{const v=location.hash.slice(1);if(['now','library','stats'].includes(v))setView(v);editLink()});
+window.addEventListener('beforeunload',e=>{if(dirty&&!PREVIEW){e.preventDefault();e.returnValue=''}});
+
+/* tooltips */
+const tip=$('#tip');
+document.addEventListener('mouseover',e=>{const t=e.target.closest('[data-tip]');if(!t){tip.style.display='none';return}tip.textContent=t.dataset.tip;tip.style.display='block'});
+document.addEventListener('mousemove',e=>{if(tip.style.display==='block'){tip.style.left=Math.min(e.clientX+14,innerWidth-270)+'px';tip.style.top=(e.clientY+16)+'px'}});
+
+/* ---------- boot ---------- */
+async function boot(again){
+  try{
+    if(!again){
+      const [s,l]=PREVIEW?[window.PT_INLINE.sprites,window.PT_INLINE.species]:await Promise.all([fetch('data/sprites.json').then(r=>r.json()),fetch('data/species.json').then(r=>r.json())]);
+      sprites=s;species=l;$('#species').innerHTML=l.map(n=>`<option value="${esc(n)}">`).join('');
+    }
+    await load();
+  }catch(err){
+    $('#v-now').innerHTML='<div class="empty">Could not load data/games.json.</div>';console.error(err);
+  }
+  renderAll();
+  const v=location.hash.slice(1);setView(['now','library','stats'].includes(v)?v:'now');
+  if(!PREVIEW){setSync(token?(dirty?'busy':'ok'):'ok',token?'Synced':'')}
+  $('#sync').hidden=!editing();
+  if(WANT_EDIT&&!again)editLink();
+}
+if(window.visualViewport){/* keep bottom nav clear of iOS home bar */document.documentElement.style.setProperty('--bot','env(safe-area-inset-bottom)')}
+boot();
+</script>
+</body>
+</html>
