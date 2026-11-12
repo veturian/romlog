@@ -495,10 +495,17 @@
    "title": "Pokémon Sword and Shield Ultimate Plus",
    "type": "ROM Hack",
    "base": "FireRed",
-   "status": "Not Started",
+   "status": "Completed",
    "rating": null,
    "ended": "",
-   "team": [],
+   "team": [
+    "Goodra",
+    "Decidueye",
+    "Cinderace",
+    "Swampert",
+    "Espeon",
+    "Alolan Muk"
+   ],
    "notes": "",
    "progress": null,
    "next": false,
@@ -1462,12 +1469,24 @@
    "title": "Pokémon Ultra Violet",
    "type": "ROM Hack",
    "base": "FireRed",
-   "status": "Not Started",
+   "status": "Abandoned",
    "rating": null,
    "ended": "",
-   "team": [],
+   "team": [
+    "Blaziken",
+    "Sealeo",
+    "Altaria",
+    "Raichu",
+    "Alakazam",
+    "Nidoqueen"
+   ],
    "notes": "",
-   "progress": null,
+   "progress": {
+    "unit": "Gyms",
+    "cur": 7,
+    "total": 8,
+    "where": ""
+   },
    "next": false,
    "log": []
   },
