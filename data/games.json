@@ -2131,20 +2131,6 @@
    "log": []
   },
   {
-   "id": "mystery-dungeon-explorers-of-sky-fan-patch",
-   "title": "Pokémon Mystery Dungeon: Explorers of Sky (fan patch)",
-   "type": "Fan Game",
-   "base": "",
-   "status": "Not Started",
-   "rating": null,
-   "ended": "",
-   "team": [],
-   "notes": "",
-   "progress": null,
-   "next": false,
-   "log": []
-  },
-  {
    "id": "perfect-emerald",
    "title": "Pokémon Perfect Emerald",
    "type": "ROM Hack",
