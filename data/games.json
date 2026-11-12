@@ -449,8 +449,8 @@
    "log": []
   },
   {
-   "id": "blaze-black-2",
-   "title": "Pokémon Blaze Black 2",
+   "id": "blaze-black-2-redux",
+   "title": "Pokémon Blaze Black 2 Redux",
    "type": "ROM Hack",
    "base": "Black 2",
    "status": "Not Started",
@@ -463,8 +463,8 @@
    "log": []
   },
   {
-   "id": "volt-white-2",
-   "title": "Pokémon Volt White 2",
+   "id": "volt-white-2-redux",
+   "title": "Pokémon Volt White 2 Redux",
    "type": "ROM Hack",
    "base": "White 2",
    "status": "Not Started",
