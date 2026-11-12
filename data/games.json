@@ -135,20 +135,6 @@
    "log": []
   },
   {
-   "id": "prism",
-   "title": "Pokémon Prism",
-   "type": "ROM Hack",
-   "base": "Crystal",
-   "status": "Not Started",
-   "rating": null,
-   "ended": "",
-   "team": [],
-   "notes": "",
-   "progress": null,
-   "next": false,
-   "log": []
-  },
-  {
    "id": "crystal-clear",
    "title": "Pokémon Crystal Clear",
    "type": "ROM Hack",
@@ -299,20 +285,6 @@
    "title": "Pokémon Vega",
    "type": "ROM Hack",
    "base": "FireRed",
-   "status": "Not Started",
-   "rating": null,
-   "ended": "",
-   "team": [],
-   "notes": "",
-   "progress": null,
-   "next": false,
-   "log": []
-  },
-  {
-   "id": "godra",
-   "title": "Pokémon Godra",
-   "type": "Fan Game",
-   "base": "",
    "status": "Not Started",
    "rating": null,
    "ended": "",
