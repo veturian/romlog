@@ -2247,17 +2247,17 @@
    "started": "2026-11-14",
    "ended": "",
    "team": [
-    "Mankey",
     "Butterfree",
     "Charmeleon",
-    "Gyarados"
+    "Gyarados",
+    "Mareep"
    ],
    "notes": "",
    "progress": {
     "unit": "Badges",
     "cur": 2,
     "total": 16,
-    "where": "Pewter City"
+    "where": "Vermillion Gym"
    },
    "next": false,
    "log": [
@@ -2278,6 +2278,12 @@
      "t": "",
      "p": "2/16 badges · Pewter City",
      "ts": "2026-11-14T18:22:39.615Z"
+    },
+    {
+     "d": "2026-11-14",
+     "t": "Picked up Mareep, completely forgot to beat Surge so doubling back before finishing Rock Tunnel. Mankey evolved.",
+     "p": "2/16 badges · Vermillion Gym",
+     "ts": "2026-11-14T19:43:08.859Z"
     }
    ]
   }
