@@ -511,7 +511,7 @@ function renderNow(){
     h+='<h2 class="sec">Recently finished</h2><div class="mini four">'+fin.map(g=>`<button data-open="${g.id}"><b>${esc(g.title)}</b><span class="tag">${fmtDate(g.ended)}${g.rating!=null?' · '+g.rating+'/10':''}</span>${teamHtml(g.team,'sm')}</button>`).join('')+'</div>';
   }
   h+='<h2 class="sec">Session log</h2>';
-  h+=acts.length?`<div class="card" style="padding:6px 18px">${acts.slice(0,12).map(({g,l})=>`<div class="logline"><span class="d">${fmtDate(l.d)}</span><span><b>${esc(short(g.title))}</b>${l.p?` <span class="tag">· ${esc(l.p)}</span>`:''}${l.t?`<br><span style="color:var(--text2)">${esc(l.t)}</span>`:''}</span></div>`).join('')}</div>`
+  h+=acts.length?`<div class="card" style="padding:6px 18px">${acts.slice(0,12).map(({g,l})=>`<div class="logline"><span class="d">${fmtDate(l.d)}</span><span><b>${esc(short(g.title))}</b>${l.p?` <span class="tag">· ${esc(l.p)}</span>`:''}${l.t?`<br><span style="color:var(--text2)">${esc(l.t)}</span>`:''}<br><button class="btn sm edit-only" style="margin-top:4px" data-logedit="${g.id}:${g.log.indexOf(l)}">Edit</button></span></div>`).join('')}</div>`
     :`<div class="empty">Session entries will show up here once you start logging them.</div>`;
   $('#v-now').innerHTML=h;
 }
@@ -673,7 +673,7 @@ function viewGame(g){
     ${progPct(g)!=null?`<div class="bar"><i style="width:${progPct(g)}%"></i></div>`:''}
     ${g.runs&&g.runs.length>1?`<h4>Playthroughs</h4>${g.runs.map((r,i)=>[r,i]).reverse().map(([r,i])=>`<div class="run"><div class="runhd"><b>${r.version?'Version '+esc(r.version):'Playthrough '+(i+1)}</b><span class="tag">${[r.base,r.ended?fmtDate(r.ended):'No date',r.rating!=null?r.rating+'/10':''].filter(Boolean).map(esc).join(' · ')}<button class="btn sm edit-only" style="margin-left:8px" data-runedit="${g.id}:${i}">Edit</button></span></div>${r.team&&r.team.length?`<div class="teamgrid">${r.team.map(m=>`<div class="mon"><span class="sprites lg">${sprite(m)}</span><span class="nm">${esc(m)}</span></div>`).join('')}</div>`:'<div class="tag">No team recorded</div>'}</div>`).join('')}`:`<h4>Team</h4>${g.team.length?`<div class="teamgrid">${g.team.map(m=>`<div class="mon"><span class="sprites lg">${sprite(m)}</span><span class="nm">${esc(m)}</span></div>`).join('')}</div>`:'<div class="tag">No team recorded</div>'}`}
     ${g.notes?`<h4>Notes</h4><div class="notes">${esc(g.notes)}</div>`:''}
-    ${log.length?`<h4>Session log</h4>${log.map(l=>`<div class="logline"><span class="d">${fmtDate(l.d)}</span><span>${l.p?`<span class="tag">${esc(l.p)}</span><br>`:''}${esc(l.t||'')}</span></div>`).join('')}`:''}
+    ${log.length?`<h4>Session log</h4>${log.map(l=>`<div class="logline"><span class="d">${fmtDate(l.d)}</span><span>${l.p?`<span class="tag">${esc(l.p)}</span><br>`:''}${esc(l.t||'')}<br><button class="btn sm edit-only" style="margin-top:4px" data-logedit="${g.id}:${g.log.indexOf(l)}">Edit</button></span></div>`).join('')}`:''}
     <div class="edit-block" style="margin-top:22px">
       <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" data-log="${g.id}">Log session</button><button class="btn" data-edit="${g.id}">Edit details</button><button class="btn" data-run="${g.id}">+ Add playthrough</button></div>
     </div>`;
@@ -811,6 +811,27 @@ function addRun(id,idx){
 }
 
 /* quick log sheet */
+/* edit an existing session-log entry. Only d / t / p change; ts (when it was first posted) is never touched,
+   so the entry keeps its place among same-day posts. */
+function editLogEntry(gid,idx){
+  const g=games.find(x=>x.id===gid), l=g&&g.log[idx];if(!l)return;
+  const fromDrawer=drawer.classList.contains('on');
+  sheet.innerHTML=`<button class="x" data-close aria-label="Close">×</button>
+    <h2>Edit log entry</h2><div class="sub">${esc(short(g.title))}</div>
+    <div class="field" style="margin-top:14px"><label class="f">Date</label><input type="date" id="leDate" value="${esc(l.d)}"></div>
+    <div class="field"><label class="f">Progress shown on the entry</label><input type="text" id="leProg" placeholder="e.g. 1/16 badges · Pewter City" value="${esc(l.p||'')}"></div>
+    <div class="field"><label class="f">What happened?</label><textarea id="leNote" rows="4">${esc(l.t||'')}</textarea></div>
+    <div class="sub">Changing this entry doesn’t change the game’s current progress, and it keeps its original place in the order for its day.</div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" id="leCancel">Cancel</button><button class="btn primary" id="leSave">Save changes</button></div>`;
+  openPanel(sheet);
+  const back=()=>{closePanels();if(fromDrawer)openGame(gid)};
+  $('#leCancel').onclick=back;
+  $('#leSave').onclick=()=>{
+    const d=$('#leDate').value;if(!d){toast('Pick a date','err');return}
+    l.d=d;l.p=$('#leProg').value.trim();l.t=$('#leNote').value.trim();
+    renderAll();back();save(`Edit log: ${short(g.title)}`);toast('Entry updated');
+  };
+}
 function openLog(id){
   if(!editing())return;
   const playing=games.filter(g=>g.status==='Playing');
@@ -931,13 +952,14 @@ function renderAll(){showEditLink();
   $('#foot').textContent=`${games.length} games tracked · ${played} played · `;
 }
 document.addEventListener('click',e=>{
-  const t=e.target.closest('[data-nav],[data-open],[data-log],[data-edit],[data-close],[data-st],[data-mon],[data-fin],[data-go],[data-run],[data-runedit]');
+  const t=e.target.closest('[data-nav],[data-open],[data-log],[data-edit],[data-close],[data-st],[data-mon],[data-fin],[data-go],[data-run],[data-runedit],[data-logedit]');
   if(!t){return}
   if(t.dataset.nav){setView(t.dataset.nav);return}
   if(t.dataset.go){e.preventDefault();setView(t.dataset.go);return}
   if(t.hasAttribute('data-close')){closePanels();return}
   if(t.hasAttribute('data-log')){e.stopPropagation();closePanels();setTimeout(()=>openLog(t.dataset.log),0);return}
   if(t.dataset.edit){editGame(t.dataset.edit);return}
+  if(t.dataset.logedit){e.stopPropagation();const [i,x]=t.dataset.logedit.split(':');editLogEntry(i,+x);return}
   if(t.dataset.run){addRun(t.dataset.run);return}
   if(t.dataset.runedit){const [i,x]=t.dataset.runedit.split(':');addRun(i,x);return}
   if(t.dataset.fin){e.stopPropagation();const [id,st]=t.dataset.fin.split(':');const g=games.find(x=>x.id===id);
