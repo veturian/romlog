@@ -2285,7 +2285,21 @@
      "d": "2026-11-14",
      "t": "Picked up Mareep, completely forgot to beat Surge so doubling back before finishing Rock Tunnel. Mankey evolved.",
      "p": "2/16 badges · Vermillion Gym",
-     "ts": "2026-11-14T19:43:08.859Z"
+     "ts": "2026-11-14T19:43:08.859Z",
+     "team": [
+      "Butterfree",
+      "Charmeleon",
+      "Gyarados",
+      "Mareep"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 2,
+      "total": 16,
+      "where": "Vermillion Gym"
+     },
+     "rating": null,
+     "status": "Playing"
     }
    ]
   }
