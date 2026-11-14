@@ -2240,11 +2240,26 @@
    "rating": null,
    "started": "2026-11-14",
    "ended": "",
-   "team": [],
+   "team": [
+    "Mankey",
+    "Charmander",
+    "Butterfree"
+   ],
    "notes": "",
-   "progress": null,
+   "progress": {
+    "unit": "Badges",
+    "cur": 0,
+    "total": 16,
+    "where": "Pewter City"
+   },
    "next": false,
-   "log": []
+   "log": [
+    {
+     "d": "2026-11-14",
+     "t": "",
+     "p": "0/16 badges · Pewter City"
+    }
+   ]
   }
  ]
 }
