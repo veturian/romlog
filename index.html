@@ -632,7 +632,12 @@ function renderStats(){
 /* ---------- DRAWER (detail + edit) ---------- */
 let openId=null, draft=null, mode='view';
 const scrim=$('#scrim'),drawer=$('#drawer'),sheet=$('#sheet');
-function openPanel(el){scrim.classList.add('on');el.classList.add('on')}
+function openPanel(el){
+  /* The drawer and the log sheet share form IDs (tIn, tAdd, pUnit…). A closed panel keeps its old HTML,
+     so $('#tAdd') would grab the hidden copy and the visible buttons did nothing. Empty any other closed panel first. */
+  [drawer,sheet].forEach(p=>{if(p!==el&&!p.classList.contains('on'))p.innerHTML=''});
+  scrim.classList.add('on');el.classList.add('on');
+}
 function closePanels(){scrim.classList.remove('on');drawer.classList.remove('on');sheet.classList.remove('on');openId=null}
 scrim.addEventListener('click',closePanels);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanels()});
