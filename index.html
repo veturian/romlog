@@ -813,24 +813,66 @@ function addRun(id,idx){
 }
 
 /* quick log sheet */
-/* edit an existing session-log entry. Only d / t / p change; ts (when it was first posted) is never touched,
-   so the entry keeps its place among same-day posts. */
+/* edit an existing session-log entry. Entries saved from now on keep a snapshot of the session (team, progress, rating, status);
+   older ones only have the date, note and progress text, so those are prefilled as well as they can be.
+   `ts` (when it was first posted) is never touched, so an entry keeps its place among same-day posts.
+   Editing a game's most recent entry also updates the game's current team/progress/rating/status. */
+function parseProgText(p){
+  if(!p)return null;
+  let m=p.match(/^(\d+)% through(?: · (.*))?$/);
+  if(m)return {unit:'Story %',cur:+m[1],total:null,where:m[2]||''};
+  m=p.match(/^(\d+)(?:\/(\d+))? ([^·]+?)(?: · (.*))?$/);
+  if(m){const u=m[3].trim().toLowerCase(),unit=UNITS.find(x=>x.toLowerCase()===u)||m[3].trim();
+    return {unit,cur:+m[1],total:m[2]?+m[2]:null,where:m[4]||''}}
+  return {unit:'',cur:null,total:null,where:p};
+}
 function editLogEntry(gid,idx){
   const g=games.find(x=>x.id===gid), l=g&&g.log[idx];if(!l)return;
   const fromDrawer=drawer.classList.contains('on');
+  const isLatest=logSort(g.log)[0]===l, snap=l.prog!==undefined||l.team!==undefined;
+  const full=isLatest||l.status!==undefined;               // rating/status only make sense when we know them
+  const inStatuses=['Playing','Completed','Abandoned'];
+  let status=l.status||(inStatuses.includes(g.status)?g.status:'Playing');
+  draft=snap?{team:[...(l.team||[])],progress:l.prog?JSON.parse(JSON.stringify(l.prog)):null}
+    :isLatest?{team:[...g.team],progress:g.progress?JSON.parse(JSON.stringify(g.progress)):null}
+    :{team:[],progress:parseProgText(l.p)};
+  const rating=l.rating!==undefined?l.rating:(isLatest?g.rating:null);
+  const startText=progText({progress:draft.progress});
   sheet.innerHTML=`<button class="x" data-close aria-label="Close">×</button>
     <h2>Edit log entry</h2><div class="sub">${esc(short(g.title))}</div>
-    <div class="field" style="margin-top:14px"><label class="f">Date</label><input type="date" id="leDate" value="${esc(l.d)}"></div>
-    <div class="field"><label class="f">Progress shown on the entry</label><input type="text" id="leProg" placeholder="e.g. 1/16 badges · Pewter City" value="${esc(l.p||'')}"></div>
-    <div class="field"><label class="f">What happened?</label><textarea id="leNote" rows="4">${esc(l.t||'')}</textarea></div>
-    <div class="sub">Changing this entry doesn’t change the game’s current progress, and it keeps its original place in the order for its day.</div>
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" id="leCancel">Cancel</button><button class="btn primary" id="leSave">Save changes</button></div>`;
-  openPanel(sheet);
+    <div class="sub" style="margin-top:6px">${isLatest?'This is the latest entry, so changes to team, progress, rating and status also update the game’s current state.':'Older entry: changes here only fix this entry’s record, not the game’s current state.'} It keeps its original place in the order for its day.</div>
+    ${full?`<div class="field" style="margin-top:14px"><label class="f">Status</label><div class="seg-st" id="leStatus">${inStatuses.map(x=>`<button type="button" data-s="${x}" aria-pressed="${x===status}">${x}</button>`).join('')}</div></div>`:''}
+    ${progressEditor()}
+    <div class="field"><label class="f">What happened?</label><textarea id="leNote" rows="3">${esc(l.t||'')}</textarea></div>
+    ${teamEditor()}
+    ${!snap&&!isLatest?'<div class="sub" style="margin-top:-6px;margin-bottom:10px">No team was saved with this older entry, so it starts empty.</div>':''}
+    <div class="row2">
+      <div class="field"><label class="f">Date</label><input type="date" id="leDate" value="${esc(l.d)}"></div>
+      ${full?`<div class="field"><label class="f">Rating (0 = none)</label><input type="number" id="leRating" min="0" max="10" inputmode="numeric" value="${rating==null?0:rating}"></div>`:'<div></div>'}
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:8px"><button class="btn" id="leCancel">Cancel</button><button class="btn primary" id="leSave">Save changes</button></div>`;
+  openPanel(sheet);bindTeam();bindProgress();
+  if(full)$('#leStatus').onclick=e=>{const x=e.target.dataset.s;if(!x)return;status=x;$$('#leStatus button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===x))};
   const back=()=>{closePanels();if(fromDrawer)openGame(gid)};
   $('#leCancel').onclick=back;
   $('#leSave').onclick=()=>{
     const d=$('#leDate').value;if(!d){toast('Pick a date','err');return}
-    l.d=d;l.p=$('#leProg').value.trim();l.t=$('#leNote').value.trim();
+    const prog=readProgress(), pt=progText({progress:prog});
+    l.d=d;l.t=$('#leNote').value.trim();
+    if(pt!==startText)l.p=pt;                       // only rewrite the shown progress if it was actually changed
+    l.team=[...draft.team];l.prog=prog?JSON.parse(JSON.stringify(prog)):null;
+    let r=null;
+    if(full){r=+$('#leRating').value;r=r>0?Math.min(10,r):null;l.rating=r;l.status=status}
+    if(isLatest){
+      g.progress=prog;g.team=[...draft.team];g.rating=r;
+      if(status!==g.status){
+        if(status==='Playing'&&!g.started)g.started=d;
+        if(status!=='Playing')g.ended=d;
+        if(status==='Playing')g.ended='';
+        g.status=status;g.next=false;
+      }
+      syncRuns(g);
+    }
     renderAll();back();save(`Edit log: ${short(g.title)}`);toast('Entry updated');
   };
 }
@@ -884,7 +926,7 @@ function fillLog(id){
     if(target.status==='Playing'&&!target.started)target.started=d;
     syncRuns(target);
     const pt=progText({progress:prog});
-    target.log.push({d,t:note,p:pt&&pt!==before?pt:'',ts:new Date().toISOString()});
+    target.log.push({d,t:note,p:pt&&pt!==before?pt:'',ts:new Date().toISOString(),team:[...target.team],prog:prog?JSON.parse(JSON.stringify(prog)):null,rating:target.rating,status:target.status});
     closePanels();renderAll();save(`Log: ${short(target.title)}`);
     toast('Session logged');
   };
