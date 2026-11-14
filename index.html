@@ -460,6 +460,18 @@ function progText(g){
 function progPct(g){const p=g.progress;if(!p||p.cur==null||p.cur==='')return null;if(p.unit==='Story %')return +p.cur;if(p.total)return Math.min(100,p.cur/p.total*100);return null}
 function syncRuns(g){if(g.runs&&g.runs.length){const r=g.runs[g.runs.length-1];r.team=[...g.team];r.rating=g.rating;if(g.ended)r.ended=g.ended}}
 const teamsOf=g=>g.runs&&g.runs.length?g.runs.map(r=>r.team||[]):[g.team];
+/* Session log order: newest date first; within a day, most recently logged first.
+   Entries carry a `ts` (when they were written) so retro-dated posts still sort by their date;
+   older entries without `ts` fall back to their position in the log (later = newer) and rank below stamped ones. */
+function logSort(items){
+  return items.map((x,i)=>({x,i})).sort((a,b)=>{
+    const A=a.x.l||a.x,B=b.x.l||b.x;
+    if(A.d!==B.d)return B.d.localeCompare(A.d);
+    if(A.ts&&B.ts&&A.ts!==B.ts)return B.ts.localeCompare(A.ts);
+    if(!!A.ts!==!!B.ts)return A.ts?-1:1;
+    return b.i-a.i;
+  }).map(o=>o.x);
+}
 function lastLog(g){return g.log.length?g.log.map(l=>l.d).sort().slice(-1)[0]:(g.started||'')}
 function stars(r){return r==null?'<span class="tag">—</span>':`<span class="rt">${r}<span class="tag">/10</span></span>`}
 function toast(msg,kind){
@@ -478,7 +490,7 @@ function renderNow(){
   const fin=games.filter(g=>g.status==='Completed'&&g.ended).sort((a,b)=>b.ended.localeCompare(a.ended)).slice(0,4);
   const acts=[];
   games.forEach(g=>g.log.forEach(l=>acts.push({g,l})));
-  acts.sort((a,b)=>b.l.d.localeCompare(a.l.d));
+  acts.splice(0,acts.length,...logSort(acts));
   let h='<h2 class="sec">Currently playing</h2>';
   if(!playing.length)h+=`<div class="empty">Nothing in progress. Pick something from <b>Up next</b> or the <a href="#library" data-go="library">library</a>.</div>`;
   else h+='<div class="cards">'+playing.map(g=>{
@@ -647,7 +659,7 @@ function openGame(id){
   openId=id;mode='view';drawer.innerHTML=viewGame(g);openPanel(drawer);drawer.scrollTop=0;
 }
 function viewGame(g){
-  const log=[...g.log].sort((a,b)=>b.d.localeCompare(a.d));
+  const log=logSort(g.log);
   return `<button class="x" data-close aria-label="Close">×</button>
     <h2>${esc(g.title)}</h2>
     <div class="tag">${esc(g.type)}${g.base?' · '+esc(g.base):''}</div>
@@ -849,7 +861,7 @@ function fillLog(id){
     if(target.status==='Playing'&&!target.started)target.started=d;
     syncRuns(target);
     const pt=progText({progress:prog});
-    target.log.push({d,t:note,p:pt&&pt!==before?pt:''});
+    target.log.push({d,t:note,p:pt&&pt!==before?pt:'',ts:new Date().toISOString()});
     closePanels();renderAll();save(`Log: ${short(target.title)}`);
     toast('Session logged');
   };
