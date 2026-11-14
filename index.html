@@ -131,6 +131,8 @@ body.editing .card .acts.edit-only{display:flex}
 .logline{display:grid;grid-template-columns:86px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
 .logline:last-child{border:0}
 .logline .d{color:var(--text2);font-size:13px}
+body.editing .logline .btn{min-height:26px;padding:0 9px;font-size:12px}
+body.editing .logline{grid-template-columns:86px 1fr auto;align-items:start}
 
 /* library */
 .ctrls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
@@ -511,7 +513,7 @@ function renderNow(){
     h+='<h2 class="sec">Recently finished</h2><div class="mini four">'+fin.map(g=>`<button data-open="${g.id}"><b>${esc(g.title)}</b><span class="tag">${fmtDate(g.ended)}${g.rating!=null?' · '+g.rating+'/10':''}</span>${teamHtml(g.team,'sm')}</button>`).join('')+'</div>';
   }
   h+='<h2 class="sec">Session log</h2>';
-  h+=acts.length?`<div class="card" style="padding:6px 18px">${acts.slice(0,12).map(({g,l})=>`<div class="logline"><span class="d">${fmtDate(l.d)}</span><span><b>${esc(short(g.title))}</b>${l.p?` <span class="tag">· ${esc(l.p)}</span>`:''}${l.t?`<br><span style="color:var(--text2)">${esc(l.t)}</span>`:''}<br><button class="btn sm edit-only" style="margin-top:4px" data-logedit="${g.id}:${g.log.indexOf(l)}">Edit</button></span></div>`).join('')}</div>`
+  h+=acts.length?`<div class="card" style="padding:6px 18px">${acts.slice(0,12).map(({g,l})=>`<div class="logline"><span class="d">${fmtDate(l.d)}</span><span><b>${esc(short(g.title))}</b>${l.p?` <span class="tag">· ${esc(l.p)}</span>`:''}${l.t?`<br><span style="color:var(--text2)">${esc(l.t)}</span>`:''}</span><button class="btn sm edit-only" data-logedit="${g.id}:${g.log.indexOf(l)}">Edit</button></div>`).join('')}</div>`
     :`<div class="empty">Session entries will show up here once you start logging them.</div>`;
   $('#v-now').innerHTML=h;
 }
@@ -673,7 +675,7 @@ function viewGame(g){
     ${progPct(g)!=null?`<div class="bar"><i style="width:${progPct(g)}%"></i></div>`:''}
     ${g.runs&&g.runs.length>1?`<h4>Playthroughs</h4>${g.runs.map((r,i)=>[r,i]).reverse().map(([r,i])=>`<div class="run"><div class="runhd"><b>${r.version?'Version '+esc(r.version):'Playthrough '+(i+1)}</b><span class="tag">${[r.base,r.ended?fmtDate(r.ended):'No date',r.rating!=null?r.rating+'/10':''].filter(Boolean).map(esc).join(' · ')}<button class="btn sm edit-only" style="margin-left:8px" data-runedit="${g.id}:${i}">Edit</button></span></div>${r.team&&r.team.length?`<div class="teamgrid">${r.team.map(m=>`<div class="mon"><span class="sprites lg">${sprite(m)}</span><span class="nm">${esc(m)}</span></div>`).join('')}</div>`:'<div class="tag">No team recorded</div>'}</div>`).join('')}`:`<h4>Team</h4>${g.team.length?`<div class="teamgrid">${g.team.map(m=>`<div class="mon"><span class="sprites lg">${sprite(m)}</span><span class="nm">${esc(m)}</span></div>`).join('')}</div>`:'<div class="tag">No team recorded</div>'}`}
     ${g.notes?`<h4>Notes</h4><div class="notes">${esc(g.notes)}</div>`:''}
-    ${log.length?`<h4>Session log</h4>${log.map(l=>`<div class="logline"><span class="d">${fmtDate(l.d)}</span><span>${l.p?`<span class="tag">${esc(l.p)}</span><br>`:''}${esc(l.t||'')}<br><button class="btn sm edit-only" style="margin-top:4px" data-logedit="${g.id}:${g.log.indexOf(l)}">Edit</button></span></div>`).join('')}`:''}
+    ${log.length?`<h4>Session log</h4>${log.map(l=>`<div class="logline"><span class="d">${fmtDate(l.d)}</span><span>${l.p?`<span class="tag">${esc(l.p)}</span><br>`:''}${esc(l.t||'')}</span><button class="btn sm edit-only" data-logedit="${g.id}:${g.log.indexOf(l)}">Edit</button></div>`).join('')}`:''}
     <div class="edit-block" style="margin-top:22px">
       <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" data-log="${g.id}">Log session</button><button class="btn" data-edit="${g.id}">Edit details</button><button class="btn" data-run="${g.id}">+ Add playthrough</button></div>
     </div>`;
