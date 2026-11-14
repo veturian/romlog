@@ -2283,14 +2283,15 @@
     "Butterfree",
     "Charmeleon",
     "Gyarados",
-    "Mareep"
+    "Flaaffy",
+    "Primeape"
    ],
    "notes": "",
    "progress": {
     "unit": "Badges",
-    "cur": 2,
+    "cur": 3,
     "total": 16,
-    "where": "Vermillion Gym"
+    "where": "Lavender Town"
    },
    "next": false,
    "log": [
@@ -2362,6 +2363,27 @@
       "cur": 2,
       "total": 16,
       "where": "Vermillion Gym"
+     },
+     "rating": null,
+     "status": "Playing"
+    },
+    {
+     "d": "2026-11-14",
+     "t": "Beat Blue at Pokemon Tower.",
+     "p": "3/16 badges · Lavender Town",
+     "ts": "2026-11-14T23:17:51.564Z",
+     "team": [
+      "Butterfree",
+      "Charmeleon",
+      "Gyarados",
+      "Flaaffy",
+      "Primeape"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 3,
+      "total": 16,
+      "where": "Lavender Town"
      },
      "rating": null,
      "status": "Playing"
