@@ -2153,7 +2153,22 @@
      "d": "2026-11-07",
      "t": "Trying to figure out who my 6th should be.",
      "p": "",
-     "ts": "2026-11-14T14:57:26.000Z"
+     "ts": "2026-11-14T14:57:26.000Z",
+     "team": [
+      "Blaziken",
+      "Starmie",
+      "Swellow",
+      "Gardevoir",
+      "Shelgon"
+     ],
+     "prog": {
+      "unit": "Gyms",
+      "cur": 8,
+      "total": 8,
+      "where": "Just before E4"
+     },
+     "rating": 9,
+     "status": "Playing"
     }
    ]
   },
