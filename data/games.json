@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-10",
+ "updated": "2026-11-14",
  "games": [
   {
    "id": "unbound",
@@ -2224,6 +2224,21 @@
    "base": "FireRed",
    "status": "Not Interested",
    "rating": null,
+   "ended": "",
+   "team": [],
+   "notes": "",
+   "progress": null,
+   "next": false,
+   "log": []
+  },
+  {
+   "id": "sivler-mirror",
+   "title": "Pokémon Sivler Mirror",
+   "type": "ROM Hack",
+   "base": "Crystal",
+   "status": "Playing",
+   "rating": null,
+   "started": "2026-11-14",
    "ended": "",
    "team": [],
    "notes": "",
