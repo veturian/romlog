@@ -1614,7 +1614,7 @@
   {
    "id": "solar-eclipse",
    "title": "Pokémon Solar Eclipse",
-   "type": "ROM Hack",
+   "type": "Fan Game",
    "base": "",
    "status": "Abandoned",
    "rating": null,
@@ -1630,7 +1630,8 @@
    "notes": "",
    "progress": null,
    "next": false,
-   "log": []
+   "log": [],
+   "started": ""
   },
   {
    "id": "this-gym-of-mine",
