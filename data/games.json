@@ -1456,15 +1456,16 @@
    "id": "sweet",
    "title": "Pokémon Sweet",
    "type": "ROM Hack",
-   "base": "",
-   "status": "Abandoned",
+   "base": "FireRed",
+   "status": "Not Interested",
    "rating": null,
    "ended": "",
    "team": [],
    "notes": "",
    "progress": null,
    "next": false,
-   "log": []
+   "log": [],
+   "started": ""
   },
   {
    "id": "ultra-violet",
