@@ -2286,18 +2286,18 @@
    "started": "2026-11-14",
    "ended": "",
    "team": [
-    "Charmeleon",
+    "Charizard",
     "Ampharos",
     "Espeon",
     "Hitmonchan",
-    "Seadra"
+    "Kingdra"
    ],
    "notes": "",
    "progress": {
     "unit": "Badges",
-    "cur": 4,
+    "cur": 6,
     "total": 16,
-    "where": "Route 13"
+    "where": "Fuchsia City"
    },
    "next": false,
    "log": [
@@ -2434,6 +2434,27 @@
       "cur": 4,
       "total": 16,
       "where": "Route 13"
+     },
+     "rating": null,
+     "status": "Playing"
+    },
+    {
+     "d": "2026-11-15",
+     "t": "Zard has arrived. Kingdra acquired. Still no 6th mon...",
+     "p": "6/16 badges · Fuchsia City",
+     "ts": "2026-11-15T19:44:49.550Z",
+     "team": [
+      "Charizard",
+      "Ampharos",
+      "Espeon",
+      "Hitmonchan",
+      "Kingdra"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 6,
+      "total": 16,
+      "where": "Fuchsia City"
      },
      "rating": null,
      "status": "Playing"
