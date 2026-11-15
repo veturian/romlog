@@ -2295,9 +2295,9 @@
    "notes": "",
    "progress": {
     "unit": "Badges",
-    "cur": 6,
+    "cur": 8,
     "total": 16,
-    "where": "Fuchsia City"
+    "where": "Elite Four"
    },
    "next": false,
    "log": [
@@ -2455,6 +2455,27 @@
       "cur": 6,
       "total": 16,
       "where": "Fuchsia City"
+     },
+     "rating": null,
+     "status": "Playing"
+    },
+    {
+     "d": "2026-11-15",
+     "t": "Severely underleveled for the E4 :( Gotta find a 6th mon and grind up for a while...rip",
+     "p": "8/16 badges · Elite Four",
+     "ts": "2026-11-15T23:10:28.547Z",
+     "team": [
+      "Charizard",
+      "Ampharos",
+      "Espeon",
+      "Hitmonchan",
+      "Kingdra"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 8,
+      "total": 16,
+      "where": "Elite Four"
      },
      "rating": null,
      "status": "Playing"
