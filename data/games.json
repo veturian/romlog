@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-14",
+ "updated": "2026-11-15",
  "games": [
   {
    "id": "unbound",
@@ -2290,14 +2290,15 @@
     "Charmeleon",
     "Gyarados",
     "Flaaffy",
-    "Primeape"
+    "Primeape",
+    "Eevee"
    ],
    "notes": "",
    "progress": {
     "unit": "Badges",
-    "cur": 3,
+    "cur": 4,
     "total": 16,
-    "where": "Lavender Town"
+    "where": "Celadon City"
    },
    "next": false,
    "log": [
@@ -2391,6 +2392,28 @@
       "cur": 3,
       "total": 16,
       "where": "Lavender Town"
+     },
+     "rating": null,
+     "status": "Playing"
+    },
+    {
+     "d": "2026-11-15",
+     "t": "After many many resets, got an Eevee with decent Special. Now to make her love me and turn into Espeon to replace Butterfree.",
+     "p": "4/16 badges · Celadon City",
+     "ts": "2026-11-15T13:23:07.043Z",
+     "team": [
+      "Butterfree",
+      "Charmeleon",
+      "Gyarados",
+      "Flaaffy",
+      "Primeape",
+      "Eevee"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 4,
+      "total": 16,
+      "where": "Celadon City"
      },
      "rating": null,
      "status": "Playing"
