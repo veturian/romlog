@@ -2167,14 +2167,14 @@
     "unit": "Gyms",
     "cur": 8,
     "total": 8,
-    "where": "Just before E4"
+    "where": "Elite Four"
    },
    "next": false,
    "log": [
     {
      "d": "2026-11-07",
      "t": "Trying to figure out who my 6th should be.",
-     "p": "",
+     "p": "8/8 gyms · Elite Four",
      "ts": "2026-11-14T14:57:26.000Z",
      "team": [
       "Blaziken",
@@ -2187,7 +2187,7 @@
       "unit": "Gyms",
       "cur": 8,
       "total": 8,
-      "where": "Just before E4"
+      "where": "Elite Four"
      },
      "rating": 9,
      "status": "Playing"
