@@ -1413,7 +1413,7 @@
    "id": "project-nova",
    "title": "Pokémon Project Nova",
    "type": "ROM Hack",
-   "base": "",
+   "base": "FireRed",
    "status": "Abandoned",
    "rating": null,
    "ended": "",
@@ -1421,7 +1421,8 @@
    "notes": "",
    "progress": null,
    "next": false,
-   "log": []
+   "log": [],
+   "started": ""
   },
   {
    "id": "scorched-silver",
