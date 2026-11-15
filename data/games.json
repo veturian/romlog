@@ -1168,7 +1168,7 @@
    "id": "dreams",
    "title": "Pokémon Dreams",
    "type": "ROM Hack",
-   "base": "",
+   "base": "FireRed",
    "status": "Completed",
    "rating": 9,
    "ended": "",
@@ -1183,7 +1183,8 @@
    "notes": "",
    "progress": null,
    "next": false,
-   "log": []
+   "log": [],
+   "started": ""
   },
   {
    "id": "elysium",
