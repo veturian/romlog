@@ -1799,7 +1799,7 @@
    "id": "light-shadow",
    "title": "Pokémon Light & Shadow",
    "type": "ROM Hack",
-   "base": "",
+   "base": "Emerald",
    "status": "Abandoned",
    "rating": 1,
    "ended": "",
@@ -1807,7 +1807,8 @@
    "notes": "Graphics are rough, too glitchy, didn't enjoy the vibe.",
    "progress": null,
    "next": false,
-   "log": []
+   "log": [],
+   "started": ""
   },
   {
    "id": "gold",
