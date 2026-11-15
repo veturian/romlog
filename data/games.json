@@ -1680,7 +1680,7 @@
    "id": "hearth",
    "title": "Pokémon Hearth",
    "type": "ROM Hack",
-   "base": "",
+   "base": "Emerald",
    "status": "Abandoned",
    "rating": null,
    "ended": "",
@@ -1690,7 +1690,8 @@
    "notes": "",
    "progress": null,
    "next": false,
-   "log": []
+   "log": [],
+   "started": ""
   },
   {
    "id": "soulgold",
