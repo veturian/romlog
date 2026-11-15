@@ -2286,19 +2286,18 @@
    "started": "2026-11-14",
    "ended": "",
    "team": [
-    "Butterfree",
     "Charmeleon",
-    "Gyarados",
-    "Flaaffy",
-    "Primeape",
-    "Eevee"
+    "Ampharos",
+    "Espeon",
+    "Hitmonchan",
+    "Seadra"
    ],
    "notes": "",
    "progress": {
     "unit": "Badges",
     "cur": 4,
     "total": 16,
-    "where": "Celadon City"
+    "where": "Route 13"
    },
    "next": false,
    "log": [
@@ -2414,6 +2413,27 @@
       "cur": 4,
       "total": 16,
       "where": "Celadon City"
+     },
+     "rating": null,
+     "status": "Playing"
+    },
+    {
+     "d": "2026-11-15",
+     "t": "Traded Primeape for Hitmonchan, Gyarados for Seadra. Flaafy evolved, Eevee evolved, Butterfree benched for midgame. Hitmonchan is one shotting everything my king",
+     "p": "4/16 badges · Route 13",
+     "ts": "2026-11-15T17:18:46.694Z",
+     "team": [
+      "Charmeleon",
+      "Ampharos",
+      "Espeon",
+      "Hitmonchan",
+      "Seadra"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 4,
+      "total": 16,
+      "where": "Route 13"
      },
      "rating": null,
      "status": "Playing"
