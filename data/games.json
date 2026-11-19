@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15",
+ "updated": "2026-11-19",
  "games": [
   {
    "id": "unbound",
@@ -2160,7 +2160,8 @@
     "Starmie",
     "Swellow",
     "Gardevoir",
-    "Shelgon"
+    "Shelgon",
+    "Nidoqueen"
    ],
    "notes": "Really neat new idea; progress through \"gyms\" is based on total pokedex count. Challenges you to catch everything, work on evolving, etc. Things I normally never do.",
    "progress": {
@@ -2182,6 +2183,28 @@
       "Swellow",
       "Gardevoir",
       "Shelgon"
+     ],
+     "prog": {
+      "unit": "Gyms",
+      "cur": 8,
+      "total": 8,
+      "where": "Elite Four"
+     },
+     "rating": 9,
+     "status": "Playing"
+    },
+    {
+     "d": "2026-11-19",
+     "t": "Picked up Nidoqueen for slot 6, gotta do a lot of grinding before E4 :(",
+     "p": "",
+     "ts": "2026-11-19T19:48:02.020Z",
+     "team": [
+      "Blaziken",
+      "Starmie",
+      "Swellow",
+      "Gardevoir",
+      "Shelgon",
+      "Nidoqueen"
      ],
      "prog": {
       "unit": "Gyms",
