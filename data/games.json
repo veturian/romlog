@@ -1960,16 +1960,38 @@
    "status": "Playing",
    "rating": null,
    "ended": "",
-   "team": [],
+   "team": [
+    "Fennekin",
+    "Starly"
+   ],
    "notes": "",
    "progress": {
     "unit": "Badges",
-    "cur": 5,
+    "cur": 0,
     "total": 8,
     "where": ""
    },
    "next": false,
-   "log": [],
+   "log": [
+    {
+     "d": "2026-11-20",
+     "t": "Starting this one over since I didn't finish the first time.",
+     "p": "0/8 badges",
+     "ts": "2026-11-20T19:45:31.958Z",
+     "team": [
+      "Fennekin",
+      "Starly"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 0,
+      "total": 8,
+      "where": ""
+     },
+     "rating": null,
+     "status": "Playing"
+    }
+   ],
    "started": "2026-11-20"
   },
   {
