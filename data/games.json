@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19",
+ "updated": "2026-11-20",
  "games": [
   {
    "id": "unbound",
@@ -1957,17 +1957,11 @@
    "title": "Pokémon Crestfall",
    "type": "ROM Hack",
    "base": "Emerald",
-   "status": "Abandoned",
-   "rating": 3,
+   "status": "Playing",
+   "rating": null,
    "ended": "",
-   "team": [
-    "Kingdra",
-    "Delphox",
-    "Haxorus",
-    "Staraptor",
-    "Ampharos"
-   ],
-   "notes": "Might come back to. Only got to 5/8 badges.",
+   "team": [],
+   "notes": "",
    "progress": {
     "unit": "Badges",
     "cur": 5,
@@ -1975,7 +1969,8 @@
     "where": ""
    },
    "next": false,
-   "log": []
+   "log": [],
+   "started": "2026-11-20"
   },
   {
    "id": "petalburg-dynasty",
