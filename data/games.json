@@ -1961,15 +1961,19 @@
    "rating": null,
    "ended": "",
    "team": [
-    "Fennekin",
-    "Starly"
+    "Braixen",
+    "Meowstic",
+    "Baltoy",
+    "Starmie",
+    "Kirlia",
+    "Meditite"
    ],
    "notes": "",
    "progress": {
     "unit": "Badges",
-    "cur": 0,
+    "cur": 2,
     "total": 8,
-    "where": ""
+    "where": "Lenox Town"
    },
    "next": false,
    "log": [
@@ -1987,6 +1991,28 @@
       "cur": 0,
       "total": 8,
       "where": ""
+     },
+     "rating": null,
+     "status": "Playing"
+    },
+    {
+     "d": "2026-11-20",
+     "t": "Got the team set up now, doing a psychic only run for no discernable reason.",
+     "p": "2/8 badges · Lenox Town",
+     "ts": "2026-11-20T23:23:28.331Z",
+     "team": [
+      "Braixen",
+      "Meowstic",
+      "Baltoy",
+      "Starmie",
+      "Kirlia",
+      "Meditite"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 2,
+      "total": 8,
+      "where": "Lenox Town"
      },
      "rating": null,
      "status": "Playing"
