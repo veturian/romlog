@@ -2151,10 +2151,10 @@
    "title": "Pokémon Riverteal",
    "type": "ROM Hack",
    "base": "Emerald",
-   "status": "Playing",
+   "status": "Completed",
    "rating": 9,
    "started": "2026-11-04",
-   "ended": "",
+   "ended": "2026-11-19",
    "team": [
     "Blaziken",
     "Starmie",
@@ -2214,6 +2214,28 @@
      },
      "rating": 9,
      "status": "Playing"
+    },
+    {
+     "d": "2026-11-19",
+     "t": "Pokedex 260",
+     "p": "",
+     "ts": "2026-11-20T00:59:32.849Z",
+     "team": [
+      "Blaziken",
+      "Starmie",
+      "Swellow",
+      "Gardevoir",
+      "Shelgon",
+      "Nidoqueen"
+     ],
+     "prog": {
+      "unit": "Gyms",
+      "cur": 8,
+      "total": 8,
+      "where": "Elite Four"
+     },
+     "rating": 9,
+     "status": "Completed"
     }
    ]
   },
