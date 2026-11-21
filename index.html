@@ -155,6 +155,12 @@ body.editing .logline{grid-template-columns:86px 1fr auto;align-items:start}
 /* library */
 .ctrls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
 .ctrls input[type=text]{flex:1 1 100%}
+.qwrap{position:relative;flex:1 1 100%;display:flex}
+.qwrap input[type=text]{padding-right:40px}
+.qclear{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:50%;background:transparent;color:var(--text2);cursor:pointer}
+.qclear:hover{background:var(--line);color:var(--text)}
+.qclear[hidden]{display:none}
+.qclear svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 .ctrls select{width:auto;flex:1 1 130px}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;min-height:34px;padding:0 13px;font-size:13px;font-weight:600;color:var(--text2)}
@@ -564,7 +570,7 @@ function renderLibraryShell(){
   const counts={};games.forEach(g=>counts[g.status]=(counts[g.status]||0)+1);
   $('#v-library').innerHTML=`
     <div class="ctrls">
-      <input type="text" id="q" placeholder="Search titles, base games, Pokémon, notes…" value="${esc(ui.q)}" aria-label="Search">
+      <div class="qwrap"><input type="text" id="q" placeholder="Search titles, base games, Pokémon, notes…" value="${esc(ui.q)}" aria-label="Search"><button type="button" class="qclear" id="qClear" aria-label="Clear search" title="Clear search" ${ui.q?'':'hidden'}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
       <select id="fType" aria-label="Type"><option value="">All types</option><option ${ui.type==='ROM Hack'?'selected':''}>ROM Hack</option><option ${ui.type==='Fan Game'?'selected':''}>Fan Game</option></select>
       <select id="fBase" aria-label="Base game"><option value="">All base games</option>${bases.map(b=>`<option ${ui.base===b?'selected':''}>${esc(b)}</option>`).join('')}</select>
       <select id="fRating" aria-label="Rating">${[['','Rating: any'],['9','9+'],['7','7+'],['5','5+'],['rated','Rated only'],['unrated','Unrated only']].map(([v,t])=>`<option value="${v}" ${ui.rating===v?'selected':''}>${t}</option>`).join('')}</select>
@@ -1038,7 +1044,7 @@ document.addEventListener('click',e=>{
   if(t.dataset.mon){ui.monMode=t.dataset.mon;renderStats();return}
 });
 document.addEventListener('input',e=>{
-  if(e.target.id==='q'){ui.q=e.target.value;renderRows()}
+  if(e.target.id==='q'){ui.q=e.target.value;const c=$('#qClear');if(c)c.hidden=!ui.q;renderRows()}
 });
 document.addEventListener('change',e=>{
   const m={fType:'type',fBase:'base',fRating:'rating',fSort:'sort'}[e.target.id];
@@ -1049,6 +1055,7 @@ $('#logBtn').onclick=()=>openLog('');
 $('#fab').onclick=()=>openLog('');
 $('#settingsBtn').onclick=openSettings;
 document.addEventListener('click',e=>{
+  if(e.target.closest&&e.target.closest('#qClear')){ui.q='';const q=$('#q');if(q){q.value='';q.focus()}$('#qClear').hidden=true;renderRows();return}
   if(e.target.id==='addBtn')editGame(null);
   if(e.target.id==='bulkBtn')bulkAdd();
 });
