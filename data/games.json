@@ -399,14 +399,15 @@
    "title": "Pokémon Sacred Gold",
    "type": "ROM Hack",
    "base": "HeartGold",
-   "status": "Not Started",
+   "status": "Not Interested",
    "rating": null,
    "ended": "",
    "team": [],
    "notes": "",
    "progress": null,
    "next": false,
-   "log": []
+   "log": [],
+   "started": ""
   },
   {
    "id": "storm-silver",
