@@ -414,14 +414,15 @@
    "title": "Pokémon Storm Silver",
    "type": "ROM Hack",
    "base": "SoulSilver",
-   "status": "Not Started",
+   "status": "Not Interested",
    "rating": null,
    "ended": "",
    "team": [],
    "notes": "",
    "progress": null,
    "next": false,
-   "log": []
+   "log": [],
+   "started": ""
   },
   {
    "id": "blaze-black",
