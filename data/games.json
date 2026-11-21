@@ -2457,10 +2457,10 @@
    "title": "Pokémon Silver Mirror",
    "type": "ROM Hack",
    "base": "Crystal",
-   "status": "Playing",
+   "status": "Completed",
    "rating": 10,
    "started": "2026-11-14",
-   "ended": "",
+   "ended": "2026-11-21",
    "team": [
     "Charizard",
     "Ampharos",
@@ -2700,6 +2700,28 @@
      },
      "rating": 10,
      "status": "Playing"
+    },
+    {
+     "d": "2026-11-21",
+     "t": "",
+     "p": "",
+     "ts": "2026-11-21T21:15:08.098Z",
+     "team": [
+      "Charizard",
+      "Ampharos",
+      "Espeon",
+      "Hitmonchan",
+      "Kingdra",
+      "Crobat"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 16,
+      "total": 16,
+      "where": "Indigo League"
+     },
+     "rating": 10,
+     "status": "Completed"
     }
    ]
   }
