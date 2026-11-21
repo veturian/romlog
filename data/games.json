@@ -1727,14 +1727,15 @@
    "title": "Pokémon Empyrean",
    "type": "Fan Game",
    "base": "",
-   "status": "Not Started",
+   "status": "Not Interested",
    "rating": null,
    "ended": "",
    "team": [],
    "notes": "",
    "progress": null,
    "next": false,
-   "log": []
+   "log": [],
+   "started": ""
   },
   {
    "id": "insurgence",
