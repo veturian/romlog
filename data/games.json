@@ -1957,9 +1957,9 @@
    "title": "Pokémon Crestfall",
    "type": "ROM Hack",
    "base": "Emerald",
-   "status": "Playing",
-   "rating": null,
-   "ended": "",
+   "status": "Completed",
+   "rating": 9,
+   "ended": "2026-11-21",
    "team": [
     "Delphox",
     "Meowstic",
@@ -1973,7 +1973,7 @@
     "unit": "Badges",
     "cur": 8,
     "total": 8,
-    "where": "Veldtmoor City"
+    "where": "Minsi City"
    },
    "next": false,
    "log": [
@@ -2082,6 +2082,28 @@
      },
      "rating": null,
      "status": "Playing"
+    },
+    {
+     "d": "2026-11-21",
+     "t": "Beat the E4. Rick as way harder than the Champ.",
+     "p": "8/8 badges · Minsi City",
+     "ts": "2026-11-21T17:17:13.880Z",
+     "team": [
+      "Delphox",
+      "Meowstic",
+      "Claydol",
+      "Starmie",
+      "Gardevoir",
+      "Medicham"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 8,
+      "total": 8,
+      "where": "Minsi City"
+     },
+     "rating": 9,
+     "status": "Completed"
     }
    ],
    "started": "2026-11-20"
