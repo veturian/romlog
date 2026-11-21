@@ -2778,6 +2778,21 @@
    "progress": null,
    "next": false,
    "log": []
+  },
+  {
+   "id": "emerald-legacy",
+   "title": "Pokémon Emerald Legacy",
+   "type": "ROM Hack",
+   "base": "Emerald",
+   "status": "Not Started",
+   "rating": null,
+   "started": "",
+   "ended": "",
+   "team": [],
+   "notes": "",
+   "progress": null,
+   "next": true,
+   "log": []
   }
  ]
 }
