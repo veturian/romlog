@@ -2458,7 +2458,7 @@
    "type": "ROM Hack",
    "base": "Crystal",
    "status": "Playing",
-   "rating": null,
+   "rating": 10,
    "started": "2026-11-14",
    "ended": "",
    "team": [
@@ -2472,9 +2472,9 @@
    "notes": "",
    "progress": {
     "unit": "Badges",
-    "cur": 11,
+    "cur": 16,
     "total": 16,
-    "where": "Goldenrod"
+    "where": "Indigo League"
    },
    "next": false,
    "log": [
@@ -2677,6 +2677,28 @@
       "where": "Goldenrod"
      },
      "rating": null,
+     "status": "Playing"
+    },
+    {
+     "d": "2026-11-21",
+     "t": "Next up is Mt. Silver, E4 rematch, Tin Tower, etc.",
+     "p": "16/16 badges · Indigo League",
+     "ts": "2026-11-21T21:15:00.941Z",
+     "team": [
+      "Charizard",
+      "Ampharos",
+      "Espeon",
+      "Hitmonchan",
+      "Kingdra",
+      "Crobat"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 16,
+      "total": 16,
+      "where": "Indigo League"
+     },
+     "rating": 10,
      "status": "Playing"
     }
    ]
