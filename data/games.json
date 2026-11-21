@@ -2793,6 +2793,21 @@
    "progress": null,
    "next": true,
    "log": []
+  },
+  {
+   "id": "repurpled-edition",
+   "title": "Pokémon Repurpled Edition",
+   "type": "ROM Hack",
+   "base": "Red",
+   "status": "Not Started",
+   "rating": null,
+   "started": "",
+   "ended": "",
+   "team": [],
+   "notes": "",
+   "progress": null,
+   "next": false,
+   "log": []
   }
  ]
 }
