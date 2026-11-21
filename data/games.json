@@ -2763,6 +2763,21 @@
    "progress": null,
    "next": false,
    "log": []
+  },
+  {
+   "id": "graseous-platinum",
+   "title": "Pokémon Graseous Platinum",
+   "type": "ROM Hack",
+   "base": "Black 2",
+   "status": "Not Started",
+   "rating": null,
+   "started": "",
+   "ended": "",
+   "team": [],
+   "notes": "",
+   "progress": null,
+   "next": false,
+   "log": []
   }
  ]
 }
