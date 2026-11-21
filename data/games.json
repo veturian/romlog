@@ -2748,6 +2748,21 @@
    "progress": null,
    "next": false,
    "log": []
+  },
+  {
+   "id": "rocket-hoenn",
+   "title": "Pokémon Rocket Hoenn",
+   "type": "ROM Hack",
+   "base": "Emerald",
+   "status": "Not Started",
+   "rating": null,
+   "started": "",
+   "ended": "",
+   "team": [],
+   "notes": "",
+   "progress": null,
+   "next": false,
+   "log": []
   }
  ]
 }
