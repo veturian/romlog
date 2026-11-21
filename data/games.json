@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20",
+ "updated": "2026-11-21",
  "games": [
   {
    "id": "unbound",
@@ -1971,9 +1971,9 @@
    "notes": "",
    "progress": {
     "unit": "Badges",
-    "cur": 6,
+    "cur": 8,
     "total": 8,
-    "where": "Delmark City"
+    "where": "Veldtmoor City"
    },
    "next": false,
    "log": [
@@ -2057,6 +2057,28 @@
       "cur": 6,
       "total": 8,
       "where": "Delmark City"
+     },
+     "rating": null,
+     "status": "Playing"
+    },
+    {
+     "d": "2026-11-21",
+     "t": "About to face the E4",
+     "p": "8/8 badges · Veldtmoor City",
+     "ts": "2026-11-21T16:38:35.381Z",
+     "team": [
+      "Delphox",
+      "Meowstic",
+      "Claydol",
+      "Starmie",
+      "Gardevoir",
+      "Medicham"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 8,
+      "total": 8,
+      "where": "Veldtmoor City"
      },
      "rating": null,
      "status": "Playing"
