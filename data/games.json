@@ -2466,14 +2466,15 @@
     "Ampharos",
     "Espeon",
     "Hitmonchan",
-    "Kingdra"
+    "Kingdra",
+    "Crobat"
    ],
    "notes": "",
    "progress": {
     "unit": "Badges",
-    "cur": 8,
+    "cur": 11,
     "total": 16,
-    "where": "Elite Four"
+    "where": "Goldenrod"
    },
    "next": false,
    "log": [
@@ -2652,6 +2653,28 @@
       "cur": 8,
       "total": 16,
       "where": "Elite Four"
+     },
+     "rating": null,
+     "status": "Playing"
+    },
+    {
+     "d": "2026-11-21",
+     "t": "Picked up Crobat before E4, cleaned up a few Johto gym punks, trying to work my way backwards through this map to Mahogany?",
+     "p": "11/16 badges · Goldenrod",
+     "ts": "2026-11-21T19:43:06.833Z",
+     "team": [
+      "Charizard",
+      "Ampharos",
+      "Espeon",
+      "Hitmonchan",
+      "Kingdra",
+      "Crobat"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 11,
+      "total": 16,
+      "where": "Goldenrod"
      },
      "rating": null,
      "status": "Playing"
