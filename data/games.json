@@ -2733,6 +2733,21 @@
      "status": "Completed"
     }
    ]
+  },
+  {
+   "id": "ceruleum",
+   "title": "Pokémon Ceruleum",
+   "type": "ROM Hack",
+   "base": "Emerald",
+   "status": "Not Started",
+   "rating": null,
+   "started": "",
+   "ended": "",
+   "team": [],
+   "notes": "",
+   "progress": null,
+   "next": false,
+   "log": []
   }
  ]
 }
