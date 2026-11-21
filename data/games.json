@@ -820,14 +820,15 @@
    "title": "Pokémon Royal Sapphire",
    "type": "ROM Hack",
    "base": "Sapphire",
-   "status": "Not Started",
+   "status": "Not Interested",
    "rating": null,
    "ended": "",
    "team": [],
    "notes": "",
    "progress": null,
    "next": false,
-   "log": []
+   "log": [],
+   "started": ""
   },
   {
    "id": "z",
