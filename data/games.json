@@ -1354,16 +1354,19 @@
    "rating": null,
    "ended": "",
    "team": [
-    "Totodile",
+    "Feraligatr",
     "Staravia",
-    "Bronzor"
+    "Combusken",
+    "Ampharos",
+    "Haunter",
+    "Eevee"
    ],
    "notes": "",
    "progress": {
     "unit": "Badges",
-    "cur": 1,
+    "cur": 3,
     "total": 16,
-    "where": "Violet City"
+    "where": "Ecruteak City"
    },
    "next": false,
    "log": [
@@ -1382,6 +1385,28 @@
       "cur": 1,
       "total": 16,
       "where": "Violet City"
+     },
+     "rating": null,
+     "status": "Playing"
+    },
+    {
+     "d": "2026-11-21",
+     "t": "Need to defeat Morty next and evolve Eevee tomorrow morning for my bestie Espeon",
+     "p": "3/16 badges · Ecruteak City",
+     "ts": "2026-11-22T04:10:03.883Z",
+     "team": [
+      "Feraligatr",
+      "Staravia",
+      "Combusken",
+      "Ampharos",
+      "Haunter",
+      "Eevee"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 3,
+      "total": 16,
+      "where": "Ecruteak City"
      },
      "rating": null,
      "status": "Playing"
