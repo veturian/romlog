@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-21",
+ "updated": "2026-11-22",
  "games": [
   {
    "id": "unbound",
@@ -1355,18 +1355,18 @@
    "ended": "",
    "team": [
     "Feraligatr",
-    "Staravia",
-    "Combusken",
+    "Staraptor",
+    "Blaziken",
     "Ampharos",
-    "Haunter",
-    "Eevee"
+    "Espeon",
+    "Garchomp"
    ],
    "notes": "",
    "progress": {
     "unit": "Badges",
-    "cur": 3,
+    "cur": 7,
     "total": 16,
-    "where": "Ecruteak City"
+    "where": "Goldenrod Underground"
    },
    "next": false,
    "log": [
@@ -1407,6 +1407,28 @@
       "cur": 3,
       "total": 16,
       "where": "Ecruteak City"
+     },
+     "rating": null,
+     "status": "Playing"
+    },
+    {
+     "d": "2026-11-22",
+     "t": "Boutta rescue Kris' dad I guess.",
+     "p": "7/16 badges · Goldenrod Underground",
+     "ts": "2026-11-22T21:40:45.261Z",
+     "team": [
+      "Feraligatr",
+      "Staraptor",
+      "Blaziken",
+      "Ampharos",
+      "Espeon",
+      "Garchomp"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 7,
+      "total": 16,
+      "where": "Goldenrod Underground"
      },
      "rating": null,
      "status": "Playing"
