@@ -1350,21 +1350,44 @@
    "title": "Pokémon GS Chronicles",
    "type": "ROM Hack",
    "base": "Gold",
-   "status": "Abandoned",
-   "rating": 7,
+   "status": "Playing",
+   "rating": null,
    "ended": "",
    "team": [
-    "Farfetch'd",
-    "Gengar",
-    "Claydol",
-    "Alolan Ninetales",
-    "Typhlosion",
-    "Swampert"
+    "Totodile",
+    "Staravia",
+    "Bronzor"
    ],
    "notes": "",
-   "progress": null,
+   "progress": {
+    "unit": "Badges",
+    "cur": 1,
+    "total": 16,
+    "where": "Violet City"
+   },
    "next": false,
-   "log": []
+   "log": [
+    {
+     "d": "2026-11-21",
+     "t": "Starting this one over; can't remember why I abandoned it. Also, Bronzor is trash.",
+     "p": "1/16 badges · Violet City",
+     "ts": "2026-11-22T00:40:18.070Z",
+     "team": [
+      "Totodile",
+      "Staravia",
+      "Bronzor"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 1,
+      "total": 16,
+      "where": "Violet City"
+     },
+     "rating": null,
+     "status": "Playing"
+    }
+   ],
+   "started": "2026-11-21"
   },
   {
    "id": "hyper-emerald-lost-artifacts",
