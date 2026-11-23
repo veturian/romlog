@@ -1351,7 +1351,7 @@
    "type": "ROM Hack",
    "base": "FireRed",
    "status": "Playing",
-   "rating": null,
+   "rating": 7,
    "ended": "",
    "team": [
     "Feraligatr",
@@ -1364,9 +1364,9 @@
    "notes": "",
    "progress": {
     "unit": "Badges",
-    "cur": 7,
+    "cur": 8,
     "total": 16,
-    "where": "Goldenrod Underground"
+    "where": "Victory Road"
    },
    "next": false,
    "log": [
@@ -1431,6 +1431,28 @@
       "where": "Goldenrod Underground"
      },
      "rating": null,
+     "status": "Playing"
+    },
+    {
+     "d": "2026-11-22",
+     "t": "Can't figure out how to make the man and the Cubone leave so I can get to Victory Road...I must have missed doing something somewhere...",
+     "p": "8/16 badges · Victory Road",
+     "ts": "2026-11-23T01:50:54.323Z",
+     "team": [
+      "Feraligatr",
+      "Staraptor",
+      "Blaziken",
+      "Ampharos",
+      "Espeon",
+      "Garchomp"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 8,
+      "total": 16,
+      "where": "Victory Road"
+     },
+     "rating": 7,
      "status": "Playing"
     }
    ],
