@@ -2925,7 +2925,29 @@
     "where": "Goldenrod"
    },
    "next": false,
-   "log": []
+   "log": [
+    {
+     "d": "2026-11-27",
+     "t": "FiNALLY hatched a Smoochum. So much training to do before Whitney though...I may take a break and come back.",
+     "p": "",
+     "ts": "2026-11-28T01:39:47.461Z",
+     "team": [
+      "Quilava",
+      "Pidgeotto",
+      "Poliwag",
+      "Bayleef",
+      "Smoochum"
+     ],
+     "prog": {
+      "unit": "Badges",
+      "cur": 2,
+      "total": 16,
+      "where": "Goldenrod"
+     },
+     "rating": null,
+     "status": "Playing"
+    }
+   ]
   }
  ]
 }
