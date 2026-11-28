@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22",
+ "updated": "2026-11-27",
  "games": [
   {
    "id": "unbound",
@@ -2898,6 +2898,32 @@
    "team": [],
    "notes": "",
    "progress": null,
+   "next": false,
+   "log": []
+  },
+  {
+   "id": "mystic-crystal",
+   "title": "Pokémon Mystic Crystal",
+   "type": "ROM Hack",
+   "base": "Crystal",
+   "status": "Playing",
+   "rating": null,
+   "started": "2026-11-26",
+   "ended": "",
+   "team": [
+    "Quilava",
+    "Pidgeotto",
+    "Poliwag",
+    "Bayleef",
+    "Smoochum"
+   ],
+   "notes": "FiNALLY hatched a Smoochum. So much training to do before Whitney though...I may take a break and come back.",
+   "progress": {
+    "unit": "Badges",
+    "cur": 2,
+    "total": 16,
+    "where": "Goldenrod"
+   },
    "next": false,
    "log": []
   }
