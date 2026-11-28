@@ -2948,6 +2948,21 @@
      "status": "Playing"
     }
    ]
+  },
+  {
+   "id": "generation-3-evolved",
+   "title": "Pokémon Generation 3 Evolved",
+   "type": "ROM Hack",
+   "base": "FireRed",
+   "status": "Playing",
+   "rating": null,
+   "started": "2026-11-27",
+   "ended": "",
+   "team": [],
+   "notes": "",
+   "progress": null,
+   "next": false,
+   "log": []
   }
  ]
 }
